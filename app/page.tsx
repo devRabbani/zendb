@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="container text-center space-y-3 grid place-content-center h-screen">
+    <div className="text-center space-y-3">
       <h1 className="text-5xl font-semibold">Welocme to DBly</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo neque ad

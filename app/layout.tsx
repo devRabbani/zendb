@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${suse.className} antialiased dark`}>
-        <main className="container">
+        <main className="container min-h-screen">
           <Nav />
           {children}
         </main>

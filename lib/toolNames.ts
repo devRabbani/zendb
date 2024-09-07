@@ -1,53 +1,53 @@
 import {
-  PiRuler,
   PiRulerFill,
-  PiList,
   PiListFill,
-  PiMagnifyingGlass,
   PiMagnifyingGlassFill,
-  PiSliders,
   PiSlidersFill,
-  PiGraph,
   PiGraphFill,
-  PiLinkSimple,
   PiLinkSimpleFill,
+  PiRulerDuotone,
+  PiListDuotone,
+  PiMagnifyingGlassDuotone,
+  PiSlidersDuotone,
+  PiGraphDuotone,
+  PiLinkSimpleDuotone,
 } from "react-icons/pi";
 
 const toolNames = [
   {
     name: "Char Length",
     path: "/",
-    icon: PiRuler, // Normal icon
+    icon: PiRulerDuotone, // Normal icon
     activeIcon: PiRulerFill, // Active icon
   },
   {
     name: "Type Optimizer",
     path: "/type-optimizer",
-    icon: PiList,
+    icon: PiListDuotone,
     activeIcon: PiListFill,
   },
   {
     name: "Index Analyzer",
     path: "/index-analyzer",
-    icon: PiMagnifyingGlass,
+    icon: PiMagnifyingGlassDuotone,
     activeIcon: PiMagnifyingGlassFill,
   },
   {
     name: "Normalization",
     path: "/normalization",
-    icon: PiSliders,
+    icon: PiSlidersDuotone,
     activeIcon: PiSlidersFill,
   },
   {
     name: "Query Estimator",
     path: "/query-estimator",
-    icon: PiGraph,
+    icon: PiGraphDuotone,
     activeIcon: PiGraphFill,
   },
   {
     name: "FK Visualizer",
     path: "/fk-visualizer",
-    icon: PiLinkSimple,
+    icon: PiLinkSimpleDuotone,
     activeIcon: PiLinkSimpleFill,
   },
 ];
