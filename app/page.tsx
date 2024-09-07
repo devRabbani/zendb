@@ -1,7 +1,7 @@
 import ToolpageHeader from "@/components/toolpage-header";
 import CharLength from "@/components/tools/char-length";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="space-y-5">
       <ToolpageHeader
