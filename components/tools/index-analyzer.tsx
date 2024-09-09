@@ -95,7 +95,7 @@ export default function IndexAnalyzer() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a your SQL query for index analysis
+                    Enter a SQL query for index analysis
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
