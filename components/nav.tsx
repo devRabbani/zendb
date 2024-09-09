@@ -48,7 +48,7 @@ export default function Nav() {
           href="/"
           className="text-xl font-semibold text-muted-foreground hover:text-foreground transition-colors"
         >
-          DBly
+          ZenDB
         </Link>
 
         <DropdownMenu>
