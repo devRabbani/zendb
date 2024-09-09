@@ -40,27 +40,31 @@ export default function SchemaVisualizer() {
     try {
       const foreignKeyRegex = /REFERENCES\s+(\w+)\s*(?:\((\w+)\)|(\w+))/i;
 
-      const tables = input.split(/\n{2,}/).map((tableStr) => {
-        const [tableName, ...columnStrs] = tableStr.split("\n");
-        const columns = columnStrs.map((colStr) => {
-          const [name, type, ...fkParts] = colStr.trim().split(" ");
-          const column: Column = { name, type };
+      const tables = input
+        .trim()
+        .split(/\n{2,}/)
+        .map((tableStr) => {
+          const [tableName, ...columnStrs] = tableStr.split("\n");
 
-          if (fkParts.length > 0) {
-            const match = fkParts.join(" ").match(foreignKeyRegex) || [];
-            if (match) {
-              const [, fkTable, fkColumnInParens, fkColumnNoParens] = match;
-              const fkColumn = fkColumnInParens || fkColumnNoParens;
+          const columns = columnStrs.map((colStr) => {
+            const [name, type, ...fkParts] = colStr.trim().split(" ");
+            const column: Column = { name, type };
 
-              if (fkTable && fkColumn) {
-                column.foreignKey = { table: fkTable, column: fkColumn };
+            if (fkParts.length > 0) {
+              const match = fkParts.join(" ").match(foreignKeyRegex) || [];
+              if (match) {
+                const [, fkTable, fkColumnInParens, fkColumnNoParens] = match;
+                const fkColumn = fkColumnInParens || fkColumnNoParens;
+
+                if (fkTable && fkColumn) {
+                  column.foreignKey = { table: fkTable, column: fkColumn };
+                }
               }
             }
-          }
-          return column;
+            return column;
+          });
+          return { name: tableName.trim(), columns };
         });
-        return { name: tableName.trim(), columns };
-      });
       return tables;
     } catch (err) {
       throw new Error("Invalid schema format. Please check your input.");
@@ -101,7 +105,7 @@ export default function SchemaVisualizer() {
         });
     });
 
-    console.log(code, "asss");
+    // console.log(code, "asss", tables);
 
     return code;
   };
