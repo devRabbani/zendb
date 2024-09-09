@@ -342,7 +342,7 @@ CREATE TABLE ${table.name} (
               </h3>
               <ul className="space-y-2">
                 {dependencies.map((dep, index) => (
-                  <li key={index} className="p-2 bg-gray-100 rounded">
+                  <li key={index} className="p-2 bg-gray-900 rounded">
                     {dep.determinant.join(", ")} → {dep.dependent.join(", ")}
                   </li>
                 ))}

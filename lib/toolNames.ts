@@ -11,6 +11,8 @@ import {
   PiSlidersDuotone,
   PiGraphDuotone,
   PiLinkSimpleDuotone,
+  PiDatabaseDuotone,
+  PiDatabaseFill,
 } from "react-icons/pi";
 
 const toolNames = [
@@ -49,6 +51,12 @@ const toolNames = [
     path: "/fk-visualizer",
     icon: PiLinkSimpleDuotone,
     activeIcon: PiLinkSimpleFill,
+  },
+  {
+    name: "Schema Visualizer",
+    path: "/schema-visualizer",
+    icon: PiDatabaseDuotone,
+    activeIcon: PiDatabaseFill,
   },
 ];
 

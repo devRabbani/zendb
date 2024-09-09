@@ -219,18 +219,7 @@ export default function ForeignKeyVisualizer() {
               <TabsTrigger value="sql">SQL</TabsTrigger>
             </TabsList>
             <TabsContent value="visualization">
-              <div style={{ height: "600px" }}>
-                <ForceGraph2D
-                  graphData={graphData}
-                  nodeLabel="name"
-                  nodeVal="val"
-                  linkLabel="name"
-                  nodeAutoColorBy="id"
-                  linkDirectionalArrowLength={3.5}
-                  linkDirectionalArrowRelPos={1}
-                  linkCurvature={0.25}
-                />
-              </div>
+              <div style={{ height: "600px" }} className="relative"></div>
             </TabsContent>
             <TabsContent value="mermaid">
               <SyntaxHighlighter

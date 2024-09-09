@@ -1,5 +1,6 @@
 import ToolpageHeader from "@/components/toolpage-header";
 import ForeignKeyVisualizer from "@/components/tools/fk-visualizer";
+import ForeignKeyVisualizer2 from "@/components/tools/fk-visualizer2";
 
 export default function FkVisualizer() {
   return (
