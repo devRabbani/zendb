@@ -3,14 +3,7 @@
 import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -19,22 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { AST, Parser } from "node-sql-parser";
 import { analyzeIndexQueries } from "@/lib/index-tool-utils";
 import { Impact, IndexAnalysisResult } from "@/lib/types";
 import { AlertCircle, CheckCircle2, HelpCircle } from "lucide-react";
 import CardWrapper from "../card-wrapper";
-import { Label } from "../ui/label";
 import {
   Form,
   FormControl,
@@ -50,13 +31,6 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 
 const formSchema = z.object({
   query: z.string().min(1, {

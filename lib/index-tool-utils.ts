@@ -30,7 +30,6 @@ export const analyzeIndexQueries = (queries: string): IndexAnalysisResult => {
 
     const parser = new Parser();
     const ast = parser.astify(query.trim());
-    console.log(ast);
     astJSON.push(JSON.stringify(ast, null, 2));
     if (Array.isArray(ast)) {
       ast.forEach((statement) => analyzeStatement(statement));
@@ -98,7 +97,7 @@ export const analyzeIndexQueries = (queries: string): IndexAnalysisResult => {
       ast.from.forEach((fromItem: any) => {
         const table = fromItem.table;
         if (table) {
-          if (fromItem.as) {
+          if (fromItem?.as) {
             aliasToTable[fromItem.as] = table;
           }
         }
@@ -107,7 +106,7 @@ export const analyzeIndexQueries = (queries: string): IndexAnalysisResult => {
 
     // Analyze WHERE clause
     if (ast.where) {
-      analyzeWhereClause(ast.where, ast.from[0].table);
+      analyzeWhereClause(ast.where, ast.from?.[0]?.table);
     }
 
     // Analyze JOIN conditions
