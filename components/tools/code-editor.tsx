@@ -21,7 +21,7 @@ export default function CodeEditor({
   return (
     <ScrollArea
       className={cn(
-        "rounded-md border border-border outline-none focus-within:ring-1 focus-within:ring-ring w-full",
+        "rounded-md border border-border outline-none focus-within:border-transparent focus-within:ring-1 focus-within:ring-ring w-full",
         height === "sm" ? "h-[200px]" : "h-[38vh]"
       )}
     >

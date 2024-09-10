@@ -8,11 +8,15 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import mermaid from "mermaid";
 import CodeEditor from "./code-editor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import getPrismaSchema from "@/lib/actions/getPrismaSchema";
-import { getSimpleSchema } from "@/lib/actions";
+import { getERDFromSimple } from "@/lib/actions";
 import { generateERD } from "@/lib/schema-tool-utils";
 import { Table } from "./schema-visualizer";
 import { Column } from "@/lib/types";
+import getERDFromPrisma from "@/lib/actions/getERDFromPrisma";
+import Mermaid from "./mermaid";
+import CardWrapper from "../card-wrapper";
+import { FormLabel } from "../ui/form";
+import { Label } from "../ui/label";
 
 export default function Component() {
   const [schema, setSchema] = useState("");
@@ -20,107 +24,28 @@ export default function Component() {
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
 
-  //   const generateDiagram = () => {
-  //     try {
-  //       const ast = parse(input);
-  //       let mermaidSyntax = "erDiagram\n";
-  //       const relationships = new Set();
-  //       const models = new Map();
+  //   const renderMermaid = useCallback(() => {
+  //     mermaid.initialize({ startOnLoad: false });
+  //     mermaid.run({
+  //       querySelector: ".mermaid",
+  //     });
+  //   }, []);
 
-  //       // First pass: collect all models and their fields
-  //       ast.list.forEach((node) => {
-  //         if (node.type === "model") {
-  //           models.set(
-  //             node.name,
-  //             new Set(
-  //               node.properties
-  //                 .filter((prop) => prop.type === "field")
-  //                 .map((prop) => prop.name)
-  //             )
-  //           );
-  //         }
-  //       });
-
-  //       // Second pass: generate diagram syntax and detect relationships
-  //       ast.list.forEach((node) => {
-  //         if (node.type === "model") {
-  //           mermaidSyntax += `  ${node.name} {\n`;
-  //           node.properties.forEach((prop) => {
-  //             if (prop.type === "field") {
-  //               const fieldType = prop.fieldType.replace("?", "");
-  //               mermaidSyntax += `    ${fieldType} ${prop.name}\n`;
-
-  //               // Detect relationships
-  //               if (fieldType.includes("[]")) {
-  //                 const relatedModel = fieldType.replace("[]", "");
-  //                 if (models.has(relatedModel)) {
-  //                   // Check for many-to-many relationship
-  //                   if (
-  //                     models.get(relatedModel).has(node.name + "s") ||
-  //                     models.get(relatedModel).has(node.name.toLowerCase() + "s")
-  //                   ) {
-  //                     relationships.add(
-  //                       `  ${node.name} }o--o{ ${relatedModel}: ""`
-  //                     );
-  //                   } else {
-  //                     relationships.add(
-  //                       `  ${node.name} ||--o{ ${relatedModel}: ""`
-  //                     );
-  //                   }
-  //                 }
-  //               } else if (models.has(fieldType)) {
-  //                 // Check for one-to-one relationship
-  //                 if (
-  //                   models.get(fieldType).has(node.name.toLowerCase()) ||
-  //                   models.get(fieldType).has(node.name)
-  //                 ) {
-  //                   relationships.add(`  ${node.name} ||--|| ${fieldType}: ""`);
-  //                 } else {
-  //                   relationships.add(`  ${node.name} }o--|| ${fieldType}: ""`);
-  //                 }
-  //               }
-  //             }
-  //           });
-  //           mermaidSyntax += "  }\n";
-  //         }
-  //       });
-
-  //       mermaidSyntax += Array.from(relationships).join("\n");
-  //       setDiagram(mermaidSyntax);
-  //       setError("");
+  //   useEffect(() => {
+  //     if (diagram) {
   //       renderMermaid();
-  //     } catch (err) {
-  //       setError(
-  //         "Failed to parse the schema. Please check your input and try again."
-  //       );
-  //       setDiagram("");
   //     }
-  //   };
-
-  const renderMermaid = useCallback(() => {
-    mermaid.initialize({ startOnLoad: false });
-    mermaid.run({
-      querySelector: ".mermaid",
-    });
-  }, []);
-
-  useEffect(() => {
-    if (diagram) {
-      renderMermaid();
-    }
-  }, [diagram, renderMermaid]);
+  //   }, [diagram, renderMermaid]);
 
   const handleTest = async () => {
     try {
-      if (schemaType === "simple") {
-        const res = await getSimpleSchema(schema);
-        const code = generateERD(res);
-        console.log(code);
-        return;
-      }
-      const mermaidCode = await getPrismaSchema(schema);
+      console.log("test", schema);
+      const mermaidCode =
+        schemaType === "simple"
+          ? await getERDFromSimple(schema)
+          : await getERDFromPrisma(schema);
+      console.log(mermaidCode, "code");
       setDiagram(mermaidCode);
-      renderMermaid();
     } catch (error) {
       console.log(error);
     }
@@ -129,37 +54,32 @@ export default function Component() {
   const onSchemaChange = useCallback((value: string) => {
     setSchema(value);
   }, []);
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="space-y-4 mt-4">
       <Tabs onValueChange={(type) => setSchemaType(type)} defaultValue="prisma">
         <TabsList>
           <TabsTrigger value="prisma">Prisma Schema</TabsTrigger>
           <TabsTrigger value="simple">Simple Schema</TabsTrigger>
         </TabsList>
       </Tabs>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Enhanced ER Diagram Generator</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* <Textarea
-            placeholder="Paste your Prisma schema here..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="min-h-[200px] mb-4"
-            aria-label="Prisma schema input"
-          /> */}
-          <CodeEditor
-            value={schema}
-            onValueChange={onSchemaChange}
-            placeholder="Enter your Prisma schema here"
-          />
-          {/* <Button onClick={generateDiagram}>Generate Diagram</Button> */}
-          <Button className="mt-6" onClick={handleTest}>
-            Generate Diagram
-          </Button>
-        </CardContent>
-      </Card>
+      <CardWrapper className="mb-4">
+        <Label>Paste your form schema here</Label>
+        <p className="text-sm text-muted-foreground mt-1 mb-4">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+          aliquid consequuntur, amet aut facere repellat beatae omnis ducimus
+          nihil quae.
+        </p>
+        <CodeEditor
+          value={schema}
+          onValueChange={onSchemaChange}
+          placeholder="Enter your Prisma schema here"
+        />
+        {/* <Button onClick={generateDiagram}>Generate Diagram</Button> */}
+        <Button className="mt-6" onClick={handleTest}>
+          Generate Diagram
+        </Button>
+      </CardWrapper>
 
       {error && (
         <Alert variant="destructive" className="mb-4">
@@ -167,8 +87,12 @@ export default function Component() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-
       {diagram && (
+        <div>
+          <Mermaid chart={diagram} />
+        </div>
+      )}
+      {/* {diagram && (
         <Card>
           <CardHeader>
             <CardTitle>Generated ER Diagram</CardTitle>
@@ -179,7 +103,7 @@ export default function Component() {
             </div>
           </CardContent>
         </Card>
-      )}
+      )} */}
     </div>
   );
 }

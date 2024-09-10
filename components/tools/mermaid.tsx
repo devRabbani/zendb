@@ -9,13 +9,6 @@ interface MermaidProps {
 
 export default function Mermaid({ chart }: MermaidProps) {
   const mermaidRef = useRef<HTMLDivElement>(null);
-  const chart2 = `
-graph [TB]
-  A[T] --> B{Is it working?}
-  B -->|Yes| C[End]
-  B -->|No| D[Try again]
-  D --> B
-`;
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -26,16 +19,17 @@ graph [TB]
 
   useEffect(() => {
     if (mermaidRef.current) {
-      mermaid.render("mermaid-svg", chart2).then((result) => {
+      mermaid.render("mermaid-svg", chart).then((result) => {
         mermaidRef.current!.innerHTML = result.svg;
       });
     }
-  }, [chart2, isMounted]);
+  }, [chart, isMounted]);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  console.log(chart);
   if (!isMounted) return null;
 
   return <div ref={mermaidRef} className="mermaid" />;

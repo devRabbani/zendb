@@ -44,10 +44,7 @@ export default function Nav() {
   return (
     <nav>
       <div className="flex items-center justify-between py-3">
-        <Link
-          href="/"
-          className="text-xl font-semibold text-muted-foreground hover:text-foreground transition-colors"
-        >
+        <Link href="/" className="text-xl font-light ">
           ZenDB
         </Link>
 
