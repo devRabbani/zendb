@@ -28,6 +28,7 @@ import {
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import ForceGraph2D from "react-force-graph-2d";
+import CodeEditor from "./code-editor";
 
 const formSchema = z.object({
   tableStructure: z.string().min(1, {
@@ -239,10 +240,14 @@ export default function NormalizationTool() {
                 <FormItem>
                   <FormLabel>Table Structure</FormLabel>
                   <FormControl>
-                    <Textarea
+                    {/* <Textarea
                       placeholder="Enter your table structure here"
                       className="min-h-[200px] font-mono"
                       {...field}
+                    /> */}
+                    <CodeEditor
+                      value={field.value}
+                      onValueChange={field.onChange}
                     />
                   </FormControl>
                   <FormDescription>

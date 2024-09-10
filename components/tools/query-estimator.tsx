@@ -37,6 +37,7 @@ import {
 } from "recharts";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import CodeEditor from "./code-editor";
 
 const formSchema = z.object({
   query: z.string().min(1, {
@@ -246,10 +247,16 @@ export default function QueryComplexityEstimator() {
                 <FormItem>
                   <FormLabel>SQL Query</FormLabel>
                   <FormControl>
-                    <Textarea
+                    {/* <Textarea
                       placeholder="Enter your SQL query here"
                       className="min-h-[200px] font-mono"
                       {...field}
+                    /> */}
+                    <CodeEditor
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Enter your SQL query here"
+                      height="sm"
                     />
                   </FormControl>
                   <FormDescription>

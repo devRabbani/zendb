@@ -64,7 +64,38 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  .schema-editor ::placeholder {
+    @apply text-muted-foreground/50;
+  }
+
+
+
+  .text::placeholder {
+    opacity: 0;
+  }
+
+  .text:focus::placeholder {
+    opacity: 0;
+  }
+
+  .text::before {
+    content: attr(placeholder);
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.75rem;
+    color: #ffffff;
+    /* Tailwind's text-gray-400 */
+    pointer-events: none;
+    white-space: pre-wrap;
+  }
+
+  .text:focus::before {
+    content: '';
   }
 }
