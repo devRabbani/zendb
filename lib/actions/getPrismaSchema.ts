@@ -1,9 +1,8 @@
 "use server";
 
-import { formatAst, parsePrismaSchema } from "@loancrate/prisma-schema-parser";
-import { log } from "console";
+import { parsePrismaSchema } from "@loancrate/prisma-schema-parser";
 
-export const getPrismaSchema = async (input: string) => {
+const getPrismaSchema = async (input: string) => {
   const output = parsePrismaSchema(input);
   let mermaidSyntax: string = "erDiagram\n";
   const relationships = new Map();
@@ -90,3 +89,5 @@ export const getPrismaSchema = async (input: string) => {
   mermaidSyntax += Array.from(relationships.values()).join("\n");
   return mermaidSyntax;
 };
+
+export default getPrismaSchema;

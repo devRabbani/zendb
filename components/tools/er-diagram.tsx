@@ -6,11 +6,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import mermaid from "mermaid";
-import { getPrismaSchema } from "@/lib/actions";
 import CodeEditor from "./code-editor";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import getPrismaSchema from "@/lib/actions/getPrismaSchema";
+import { getSimpleSchema } from "@/lib/actions";
+import { generateERD } from "@/lib/schema-tool-utils";
+import { Table } from "./schema-visualizer";
+import { Column } from "@/lib/types";
 
 export default function Component() {
   const [schema, setSchema] = useState("");
+  const [schemaType, setSchemaType] = useState("prisma");
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
 
@@ -106,10 +112,15 @@ export default function Component() {
 
   const handleTest = async () => {
     try {
-      const test = await getPrismaSchema(schema);
-      setDiagram(test);
+      if (schemaType === "simple") {
+        const res = await getSimpleSchema(schema);
+        const code = generateERD(res);
+        console.log(code);
+        return;
+      }
+      const mermaidCode = await getPrismaSchema(schema);
+      setDiagram(mermaidCode);
       renderMermaid();
-      console.log(test);
     } catch (error) {
       console.log(error);
     }
@@ -120,6 +131,12 @@ export default function Component() {
   }, []);
   return (
     <div className="container mx-auto p-4">
+      <Tabs onValueChange={(type) => setSchemaType(type)} defaultValue="prisma">
+        <TabsList>
+          <TabsTrigger value="prisma">Prisma Schema</TabsTrigger>
+          <TabsTrigger value="simple">Simple Schema</TabsTrigger>
+        </TabsList>
+      </Tabs>
       <Card className="mb-4">
         <CardHeader>
           <CardTitle>Enhanced ER Diagram Generator</CardTitle>

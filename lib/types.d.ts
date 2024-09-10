@@ -12,3 +12,20 @@ export type IndexAnalysisResult = {
 };
 
 export type Impact = "High" | "Medium" | "Low";
+
+// Schema Tool (Common)
+
+export type Column = {
+  name: string;
+  type: string;
+  foreignKey?: {
+    table: string;
+    column: string;
+  };
+  unique?: boolean;
+};
+
+export type Table = {
+  name: string;
+  columns: Column[];
+};

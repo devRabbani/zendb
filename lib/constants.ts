@@ -1,5 +1,1 @@
-// CODE EDITOR
-export const EDITOR_HEIGHT = {
-  sm: "300px",
-  default: "38vh",
-};
+export const FOREIGN_KEY_REGEX = /REFERENCES\s+(\w+)\s*(?:\((\w+)\)|(\w+))/i;
