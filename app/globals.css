@@ -70,7 +70,7 @@
   }
 
   .schema-editor ::placeholder {
-    @apply text-muted-foreground/40;
+    @apply text-muted-foreground/45 leading-6;
   }
 
   .schema-editor textarea{

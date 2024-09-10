@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/nav";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const suse = Rubik({ subsets: ["latin"] });
 
@@ -17,11 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${suse.className} antialiased dark`}>
-        <main className="container min-h-screen">
-          <Nav />
-          <div className="mt-5">{children}</div>
-        </main>
+      <body className={`${suse.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="container min-h-screen">
+            <Nav />
+            <div className="mt-5">{children}</div>
+          </main>{" "}
+        </ThemeProvider>
       </body>
     </html>
   );

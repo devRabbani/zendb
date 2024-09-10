@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -43,11 +44,11 @@ export default function Nav() {
 
   return (
     <nav>
-      <div className="flex items-center justify-between py-3">
+      <div className="flex items-center gap-3.5 py-3">
         <Link href="/" className="text-xl font-light ">
           ZenDB
         </Link>
-
+        <ModeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" className="">
