@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import mermaid from "mermaid";
 import { getPrismaSchema } from "@/lib/actions";
+import CodeEditor from "./code-editor";
 
 export default function Component() {
-  const [input, setInput] = useState("");
+  const [schema, setSchema] = useState("");
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
 
@@ -105,7 +106,7 @@ export default function Component() {
 
   const handleTest = async () => {
     try {
-      const test = await getPrismaSchema(input);
+      const test = await getPrismaSchema(schema);
       setDiagram(test);
       renderMermaid();
       console.log(test);
@@ -113,6 +114,10 @@ export default function Component() {
       console.log(error);
     }
   };
+
+  const onSchemaChange = useCallback((value: string) => {
+    setSchema(value);
+  }, []);
   return (
     <div className="container mx-auto p-4">
       <Card className="mb-4">
@@ -120,15 +125,22 @@ export default function Component() {
           <CardTitle>Enhanced ER Diagram Generator</CardTitle>
         </CardHeader>
         <CardContent>
-          <Textarea
+          {/* <Textarea
             placeholder="Paste your Prisma schema here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="min-h-[200px] mb-4"
             aria-label="Prisma schema input"
+          /> */}
+          <CodeEditor
+            value={schema}
+            onValueChange={onSchemaChange}
+            placeholder="Enter your Prisma schema here"
           />
           {/* <Button onClick={generateDiagram}>Generate Diagram</Button> */}
-          <Button onClick={handleTest}>Generate Diagram</Button>
+          <Button className="mt-6" onClick={handleTest}>
+            Generate Diagram
+          </Button>
         </CardContent>
       </Card>
 

@@ -31,6 +31,7 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import CodeEditor from "./code-editor";
 
 const formSchema = z.object({
   query: z.string().min(1, {
@@ -88,10 +89,16 @@ export default function IndexAnalyzer() {
                 <FormItem>
                   <FormLabel>SQL Query</FormLabel>
                   <FormControl>
-                    <Textarea
+                    {/* <Textarea
                       placeholder="Eg: SELECT e.id, e.name, d.department_name FROM employees e JOIN ( SELECT id, department_name FROM departments WHERE active = 1 ) d ON e.department_id = d.id;"
                       className="min-h-[200px] font-mono"
                       {...field}
+                    /> */}
+                    <CodeEditor
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Eg: SELECT e.id, e.name, d.department_name FROM employees e JOIN ( SELECT id, department_name FROM departments WHERE active = 1 ) d ON e.department_id = d.id;"
+                      height="sm"
                     />
                   </FormControl>
                   <FormDescription>

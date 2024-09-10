@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -18,6 +18,7 @@ import SchemaComplexity from "./schema-complexity";
 import SchemaImpactAnalysis from "./schema-impact-analysis";
 import SchemaSuggestions from "./schema-suggestion";
 import Mermaid from "./mermaid";
+import CodeEditor from "./code-editor";
 
 export type Column = {
   name: string;
@@ -124,6 +125,10 @@ export default function SchemaVisualizer() {
     }
   };
 
+  const onValueChange = useCallback((value: string) => {
+    setSchema(value);
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <Card className="w-full">
@@ -135,12 +140,7 @@ export default function SchemaVisualizer() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Textarea
-            placeholder="Enter your schema here..."
-            value={schema}
-            onChange={(e) => setSchema(e.target.value)}
-            className="h-64 mb-4"
-          />
+          <CodeEditor value={schema} onValueChange={onValueChange} />
           {error && (
             <Alert variant="destructive" className="mb-4">
               <AlertCircle className="h-4 w-4" />
