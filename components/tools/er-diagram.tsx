@@ -18,6 +18,7 @@ import CardWrapper from "../card-wrapper";
 import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 import MermaidGraph from "./mermaid-graph";
+import DragTest from "./drag-test";
 
 export default function Component() {
   const chart = `
@@ -94,17 +95,18 @@ export default function Component() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+      <DragTest />
       {/* {diagram && (
         <div>
           <Mermaid chart={diagram} />
         </div>
       )} */}
-      <div className="bg-background">
+      {/* <div className="bg-background">
         <MermaidGraph
           chart={diagram}
           className="max-w-3xl mx-auto select-none"
         />
-      </div>
+      </div> */}
       {/* {diagram && (
         <Card>
           <CardHeader>

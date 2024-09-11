@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import mermaid from "mermaid";
-import { ZoomIn, ZoomOut, Maximize2, Move } from "lucide-react";
+import { ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { motion, useMotionValue, useAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -14,19 +15,21 @@ interface MermaidGraphProps {
 
 export default function MermaidGraph({ chart, className }: MermaidGraphProps) {
   const [svg, setSvg] = useState<string>("");
-  const [zoom, setZoom] = useState<number>(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<HTMLDivElement>(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const scale = useMotionValue(1);
+
+  const controls = useAnimation();
 
   const isDarkMode = useCallback(() => {
     return document.documentElement.classList.contains("dark");
   }, []);
 
-  useEffect(() => {
-    const initMermaid = async () => {
+  const renderMermaid = useCallback(async () => {
+    if (graphRef.current) {
       mermaid.initialize({
         startOnLoad: true,
         theme: isDarkMode() ? "dark" : "neutral",
@@ -36,52 +39,43 @@ export default function MermaidGraph({ chart, className }: MermaidGraphProps) {
 
       const { svg } = await mermaid.render("mermaid-graph", chart);
       setSvg(svg);
-    };
 
-    initMermaid();
-    handleReset();
-  }, [chart, isDarkMode]);
-
-  const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 2));
-  const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.5));
-  const handleReset = () => {
-    setZoom(1);
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartPosition({ x: e.clientX - position.x, y: e.clientY - position.y });
-  };
-
-  const handleMouseMove = (e: MouseEvent | TouchEvent) => {
-    if (isDragging) {
-      let clientX: number, clientY: number;
-      if ("touches" in e) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-      } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-      }
-
-      setPosition({
-        x: clientX - startPosition.x,
-        y: clientY - startPosition.y,
-      });
+      // Reset zoom and position
+      scale.set(1);
+      x.set(0);
+      y.set(0);
+      controls.set({ x: 0, y: 0, scale: 1 });
     }
-  };
+  }, [chart, isDarkMode, x, y, scale, controls]);
 
-  const handleMouseUp = () => setIsDragging(false);
+  useEffect(() => {
+    renderMermaid();
+  }, [renderMermaid]);
+
+  const handleZoom = useCallback(
+    (delta: number) => {
+      const newScale = Math.max(0.6, Math.min(scale.get() + delta, 2));
+      scale.set(newScale);
+      controls.start({ scale: newScale });
+    },
+    [scale, controls]
+  );
+
+  const handleReset = useCallback(() => {
+    scale.set(1);
+    x.set(0);
+    y.set(0);
+    controls.start({ x: 0, y: 0, scale: 1 });
+  }, [x, y, scale, controls]);
 
   return (
     <Card className={cn("w-full overflow-hidden", className)}>
       <CardContent className="p-0">
         <div className="flex justify-end space-x-2 p-2 bg-muted">
-          <Button variant="ghost" size="icon" onClick={handleZoomOut}>
+          <Button variant="ghost" size="icon" onClick={() => handleZoom(-0.1)}>
             <ZoomOut className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={handleZoomIn}>
+          <Button variant="ghost" size="icon" onClick={() => handleZoom(0.1)}>
             <ZoomIn className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="icon" onClick={handleReset}>
@@ -91,20 +85,22 @@ export default function MermaidGraph({ chart, className }: MermaidGraphProps) {
         <div
           ref={containerRef}
           className="overflow-hidden bg-background"
-          style={{ height: "400px" }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          style={{ height: "600px", width: "100%" }}
         >
-          <div
+          <motion.div
             ref={graphRef}
             style={{
-              transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,
-              transformOrigin: "0 0",
-              transition: "transform 0.1s ease-out",
-              cursor: isDragging ? "grabbing" : "grab",
+              x,
+              y,
+              scale,
+              cursor: "grab",
             }}
+            whileTap={{ cursor: "grabbing" }}
+            drag
+            dragElastic={0}
+            dragMomentum={false}
+            dragConstraints={containerRef}
+            animate={controls}
             dangerouslySetInnerHTML={{ __html: svg }}
           />
         </div>
