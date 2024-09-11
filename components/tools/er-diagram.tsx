@@ -17,11 +17,18 @@ import Mermaid from "./mermaid";
 import CardWrapper from "../card-wrapper";
 import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
+import MermaidGraph from "./mermaid-graph";
 
 export default function Component() {
+  const chart = `
+    graph TD
+    A[Client] --> B[Load Balancer]
+    B --> C[Server01]
+    B --> D[Server02]`;
+
   const [schema, setSchema] = useState("");
   const [schemaType, setSchemaType] = useState("prisma");
-  const [diagram, setDiagram] = useState("");
+  const [diagram, setDiagram] = useState(chart);
   const [error, setError] = useState("");
 
   //   const renderMermaid = useCallback(() => {
@@ -87,11 +94,17 @@ export default function Component() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      {diagram && (
+      {/* {diagram && (
         <div>
           <Mermaid chart={diagram} />
         </div>
-      )}
+      )} */}
+      <div className="bg-background">
+        <MermaidGraph
+          chart={diagram}
+          className="max-w-3xl mx-auto select-none"
+        />
+      </div>
       {/* {diagram && (
         <Card>
           <CardHeader>
