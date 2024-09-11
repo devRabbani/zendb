@@ -18,23 +18,24 @@ import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 import MermaidGraph from "./mermaid-graph";
 
-export default function Component() {
+export default function ERDGenerator() {
   const [schema, setSchema] = useState("");
   const [schemaType, setSchemaType] = useState("prisma");
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
 
-  const handleTest = async () => {
+  const handleGenerate = async () => {
     try {
-      console.log("test", schema);
+      setError(""); //Clearing Error
       const mermaidCode =
         schemaType === "simple"
           ? await getERDFromSimple(schema)
           : await getERDFromPrisma(schema);
-      console.log(mermaidCode, "code");
       setDiagram(mermaidCode);
     } catch (error) {
       console.log(error);
+      setDiagram("");
+      setError("Something went wrong, Make sure your schema is valid");
     }
   };
 
@@ -43,7 +44,7 @@ export default function Component() {
   }, []);
 
   return (
-    <div className="space-y-4 mt-4">
+    <div className="space-y-4">
       <Tabs onValueChange={(type) => setSchemaType(type)} defaultValue="prisma">
         <TabsList>
           <TabsTrigger value="prisma">Prisma Schema</TabsTrigger>
@@ -62,17 +63,21 @@ export default function Component() {
           onValueChange={onSchemaChange}
           placeholder="Enter your Prisma schema here"
         />
-        <Button className="mt-6" onClick={handleTest}>
+        <Button
+          className="mt-6"
+          disabled={schema.length < 20}
+          onClick={handleGenerate}
+        >
           Generate Diagram
         </Button>
+        {error && (
+          <Alert variant="destructive" className="mt-6">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
       </CardWrapper>
 
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
       {diagram && <MermaidGraph chart={diagram} />}
     </div>
   );

@@ -21,16 +21,20 @@ export default function MermaidGraph({ chart }: { chart: string }) {
   const isDarkMode = theme === "dark";
 
   const renderMermaid = useCallback(async () => {
-    if (graphRef.current && chart) {
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: isDarkMode ? "dark" : "neutral",
-        securityLevel: "loose",
-        fontFamily: "Inter, sans-serif",
-      });
+    try {
+      if (graphRef.current && chart) {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: isDarkMode ? "dark" : "neutral",
+          securityLevel: "loose",
+          fontFamily: "Inter, sans-serif",
+        });
 
-      const { svg } = await mermaid.render("mermaid-graph", chart);
-      setSvg(svg);
+        const { svg } = await mermaid.render("mermaid-graph", chart);
+        setSvg(svg);
+      }
+    } catch (error: any) {
+      console.log("Error generating ERD", error?.message);
     }
   }, [chart, isDarkMode]);
 

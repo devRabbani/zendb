@@ -4,15 +4,15 @@ import {
   PiMagnifyingGlassFill,
   PiSlidersFill,
   PiGraphFill,
-  PiLinkSimpleFill,
   PiRulerDuotone,
   PiListDuotone,
   PiMagnifyingGlassDuotone,
   PiSlidersDuotone,
   PiGraphDuotone,
-  PiLinkSimpleDuotone,
   PiDatabaseDuotone,
   PiDatabaseFill,
+  PiFlowArrowDuotone,
+  PiFlowArrowFill,
 } from "react-icons/pi";
 
 const toolNames = [
@@ -47,10 +47,10 @@ const toolNames = [
     activeIcon: PiGraphFill,
   },
   {
-    name: "FK Visualizer",
-    path: "/fk-visualizer",
-    icon: PiLinkSimpleDuotone,
-    activeIcon: PiLinkSimpleFill,
+    name: "ERD Generator",
+    path: "/erd-generator",
+    icon: PiFlowArrowDuotone,
+    activeIcon: PiFlowArrowFill,
   },
   {
     name: "Schema Visualizer",

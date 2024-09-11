@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const suse = Rubik({ subsets: ["latin"] });
 
@@ -26,14 +27,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="container min-h-screen">
+          <main className="container min-h-screen flex flex-col">
             <Nav />
-            <div className="mt-5 pb-10">{children}</div>
-            <footer className="text-center py-5 border-t border-border text-muted-foreground/70 text-sm font-medium">
+            <div className="mt-5 pb-10 space-y-6">{children}</div>
+            <footer className="mt-auto text-center py-5 border-t border-border text-muted-foreground/70 text-sm font-medium">
               Created by devRabbani
             </footer>
           </main>{" "}
           <Toaster />
+          <NextTopLoader color="#6225C5" zIndex={999} />
         </ThemeProvider>
       </body>
     </html>
