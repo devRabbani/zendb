@@ -1,6 +1,6 @@
 "use server";
 
-import { generateERD, parseSchema } from "../schema-tool-utils";
+import { generateERD, parseSchema } from "../common-tool-utils";
 
 export const getERDFromSimple = async (schema: string) => {
   const tables = parseSchema(schema);

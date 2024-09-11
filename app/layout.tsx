@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const suse = Rubik({ subsets: ["latin"] });
 
@@ -27,8 +28,12 @@ export default function RootLayout({
         >
           <main className="container min-h-screen">
             <Nav />
-            <div className="mt-5">{children}</div>
+            <div className="mt-5 pb-10">{children}</div>
+            <footer className="text-center py-5 border-t border-border text-muted-foreground/70 text-sm font-medium">
+              Created by devRabbani
+            </footer>
           </main>{" "}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

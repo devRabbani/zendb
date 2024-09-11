@@ -1,19 +1,31 @@
 "use client";
 
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import mermaid from "mermaid";
 import { useTheme } from "next-themes";
+import CardWrapper from "../card-wrapper";
 import {
+  PiDownload,
   PiDownloadSimple,
+  PiDownloadSimpleLight,
+  PiMagnifyingGlassMinus,
+  PiMagnifyingGlassMinusDuotone,
   PiMagnifyingGlassMinusLight,
+  PiMagnifyingGlassPlus,
+  PiMagnifyingGlassPlusBold,
+  PiMagnifyingGlassPlusDuotone,
+  PiMagnifyingGlassPlusFill,
   PiMagnifyingGlassPlusLight,
+  PiMagnifyingGlassPlusThin,
 } from "react-icons/pi";
+
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { toast } from "sonner";
 import { downloadSVG } from "@/lib/common-tool-utils";
 
-export default function MermaidGraph({ chart }: { chart: string }) {
+export default function DragTest2({ chart }: { chart: string }) {
   const graphRef = useRef<HTMLDivElement>(null);
   const [svg, setSvg] = useState<string>("");
 
@@ -62,7 +74,7 @@ export default function MermaidGraph({ chart }: { chart: string }) {
         centerZoomedOut
         minScale={0.8}
       >
-        {({ zoomIn, zoomOut }) => (
+        {({ zoomIn, zoomOut, ...rest }) => (
           <div className="relative">
             <div className="space-x-2.5 absolute right-3 top-3 z-10">
               <Button
@@ -84,6 +96,34 @@ export default function MermaidGraph({ chart }: { chart: string }) {
           </div>
         )}
       </TransformWrapper>
+      {/* <div
+        ref={containerRef}
+        className="min-h-[500px] h-full bg-muted relative dark:bg-transparent p-2 w-full overflow-hidden"
+      >
+        <div className="space-x-2.5 absolute right-3 top-3 z-10">
+          <Button
+            variant="outline"
+            // onClick={() => handleZoom(-0.2)}
+            size="icon"
+          >
+            <PiMagnifyingGlassMinusLight className="h-5 w-5" />
+          </Button>
+          <Button
+            // onClick={() => handleZoom(0.2)}
+            variant="outline"
+            size="icon"
+          >
+            <PiMagnifyingGlassPlusLight className="h-5 w-5" />
+          </Button>
+        </div>
+        <TransformComponent>
+          <div
+            ref={graphRef}
+            className="w-fit h-fit bg-black"
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
+        </TransformComponent>
+      </div> */}
     </div>
   );
 }

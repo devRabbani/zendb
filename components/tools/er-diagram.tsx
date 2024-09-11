@@ -9,7 +9,6 @@ import mermaid from "mermaid";
 import CodeEditor from "./code-editor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { getERDFromSimple } from "@/lib/actions";
-import { generateERD } from "@/lib/schema-tool-utils";
 import { Table } from "./schema-visualizer";
 import { Column } from "@/lib/types";
 import getERDFromPrisma from "@/lib/actions/getERDFromPrisma";
@@ -18,32 +17,12 @@ import CardWrapper from "../card-wrapper";
 import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 import MermaidGraph from "./mermaid-graph";
-import DragTest from "./drag-test";
 
 export default function Component() {
-  const chart = `
-    graph TD
-    A[Client] --> B[Load Balancer]
-    B --> C[Server01]
-    B --> D[Server02]`;
-
   const [schema, setSchema] = useState("");
   const [schemaType, setSchemaType] = useState("prisma");
-  const [diagram, setDiagram] = useState(chart);
+  const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
-
-  //   const renderMermaid = useCallback(() => {
-  //     mermaid.initialize({ startOnLoad: false });
-  //     mermaid.run({
-  //       querySelector: ".mermaid",
-  //     });
-  //   }, []);
-
-  //   useEffect(() => {
-  //     if (diagram) {
-  //       renderMermaid();
-  //     }
-  //   }, [diagram, renderMermaid]);
 
   const handleTest = async () => {
     try {
@@ -83,7 +62,6 @@ export default function Component() {
           onValueChange={onSchemaChange}
           placeholder="Enter your Prisma schema here"
         />
-        {/* <Button onClick={generateDiagram}>Generate Diagram</Button> */}
         <Button className="mt-6" onClick={handleTest}>
           Generate Diagram
         </Button>
@@ -95,30 +73,7 @@ export default function Component() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      <DragTest />
-      {/* {diagram && (
-        <div>
-          <Mermaid chart={diagram} />
-        </div>
-      )} */}
-      {/* <div className="bg-background">
-        <MermaidGraph
-          chart={diagram}
-          className="max-w-3xl mx-auto select-none"
-        />
-      </div> */}
-      {/* {diagram && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Generated ER Diagram</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="mermaid" aria-label="Entity-Relationship Diagram">
-              {diagram}
-            </div>
-          </CardContent>
-        </Card>
-      )} */}
+      {diagram && <MermaidGraph chart={diagram} />}
     </div>
   );
 }

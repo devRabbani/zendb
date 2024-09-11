@@ -1,6 +1,7 @@
 import { FOREIGN_KEY_REGEX } from "./constants";
 import { Column, Table } from "./types";
 
+// Parse Simple text Based Schema
 export const parseSchema = (input: string): Table[] => {
   const tables = input
     .trim()
@@ -51,6 +52,7 @@ function isJunctionTable(table: Table): boolean {
   );
 }
 
+// Generate ERD
 export const generateERD = (schema: Table[]): string => {
   let mermaidSyntax: string = "erDiagram\n";
   const relationships = new Set<string>();
@@ -99,4 +101,16 @@ export const generateERD = (schema: Table[]): string => {
   mermaidSyntax += Array.from(relationships).join("\n");
 
   return mermaidSyntax;
+};
+
+// Download SVG
+export const downloadSVG = (svg: string) => {
+  const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+  const svgUrl = URL.createObjectURL(svgBlob);
+  const downloadLink = document.createElement("a");
+  downloadLink.href = svgUrl;
+  downloadLink.download = "diagram.svg";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
 };
