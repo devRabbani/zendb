@@ -1,7 +1,8 @@
-export const FOREIGN_KEY_REGEX = /REFERENCES\s+(\w+)\s*(?:\((\w+)\)|(\w+))/i;
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-export const SAMPLE_SCEMA = {
-  prisma: `
 model User {
   id      Int      @id @default(autoincrement())
   name    String
@@ -25,7 +26,7 @@ model Post {
   content    String?
   authorId   Int
   author     User           @relation(fields: [authorId], references: [id])
-  categories Category[]
+  categories PostCategory[]
   tags       Tag[]
 }
 
@@ -39,7 +40,14 @@ model Tag {
 model Category {
   id    Int            @id @default(autoincrement())
   name  String         @unique
-  posts Post[]
+  posts PostCategory[]
 }
-`,
-};
+
+model PostCategory {
+  postId     Int
+  categoryId Int
+  post       Post     @relation(fields: [postId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([postId, categoryId])
+}

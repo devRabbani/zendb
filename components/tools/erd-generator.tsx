@@ -17,6 +17,13 @@ import CardWrapper from "../card-wrapper";
 import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 import MermaidGraph from "./mermaid-graph";
+import { HelpCircle } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
+import getERDFromPrisma3 from "@/lib/actions/getERDFromPrisma3";
 
 export default function ERDGenerator() {
   const [schema, setSchema] = useState("");
@@ -30,7 +37,8 @@ export default function ERDGenerator() {
       const mermaidCode =
         schemaType === "simple"
           ? await getERDFromSimple(schema)
-          : await getERDFromPrisma(schema);
+          : await getERDFromPrisma3(schema);
+      console.log(mermaidCode);
       setDiagram(mermaidCode);
     } catch (error) {
       console.log(error);
@@ -44,40 +52,63 @@ export default function ERDGenerator() {
   }, []);
 
   return (
-    <div className="space-y-4">
-      <Tabs onValueChange={(type) => setSchemaType(type)} defaultValue="prisma">
-        <TabsList>
-          <TabsTrigger value="prisma">Prisma Schema</TabsTrigger>
-          <TabsTrigger value="simple">Simple Schema</TabsTrigger>
-        </TabsList>
-      </Tabs>
-      <CardWrapper className="mb-4">
-        <Label>Paste your form schema here</Label>
-        <p className="text-sm text-muted-foreground mt-1 mb-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-          aliquid consequuntur, amet aut facere repellat beatae omnis ducimus
-          nihil quae.
-        </p>
-        <CodeEditor
-          value={schema}
-          onValueChange={onSchemaChange}
-          placeholder="Enter your Prisma schema here"
-        />
-        <Button
-          className="mt-6"
-          disabled={schema.length < 20}
-          onClick={handleGenerate}
+    <div className="space-y-7">
+      <div className="space-y-4">
+        <Tabs
+          onValueChange={(type) => setSchemaType(type)}
+          defaultValue="prisma"
         >
-          Generate Diagram
-        </Button>
-        {error && (
-          <Alert variant="destructive" className="mt-6">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-      </CardWrapper>
+          <TabsList>
+            <TabsTrigger value="prisma">Prisma Schema</TabsTrigger>
+            <TabsTrigger value="simple">Simple Schema</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <CardWrapper className="mb-4">
+          <div className="space-y-2.5">
+            <div className="flex justify-between item-center">
+              <Label htmlFor="code-editor">Paste your form schema here</Label>
+              <HoverCard>
+                <HoverCardTrigger className="cursor-pointer">
+                  <HelpCircle className="h-6 w-6 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <p className="text-[0.8rem] leading-relaxed">
+                    Ensure that you provide only a correctly formatted Prisma
+                    schema to avoid any issues.
+                  </p>
 
+                  <Button variant="outline" className="mt-5" size="sm">
+                    Copy Sample Schema
+                  </Button>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+
+            <CodeEditor
+              value={schema}
+              onValueChange={onSchemaChange}
+              placeholder="Enter your Prisma schema here"
+            />
+            <p className="text-[0.8rem] text-muted-foreground">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel,
+              laboriosam.
+            </p>
+          </div>
+          <Button
+            className="mt-6"
+            disabled={schema.length < 20}
+            onClick={handleGenerate}
+          >
+            Generate Diagram
+          </Button>
+          {error && (
+            <Alert variant="destructive" className="mt-6">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+        </CardWrapper>
+      </div>
       {diagram && <MermaidGraph chart={diagram} />}
     </div>
   );

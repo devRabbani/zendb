@@ -54,10 +54,11 @@ export default function MermaidGraph({ chart }: { chart: string }) {
 
   return (
     <div className="rounded-xl border border-border overflow-hidden bg-card text-card-foreground shadow">
-      <div className="px-6 border-b border-border py-3 dark:bg-muted/50 flex justify-between items-center">
+      <div className="px-6 border-b border-border py-2.5 dark:bg-muted/50 flex justify-between items-center">
         <h4>Diagram</h4>
         <Button variant="ghost" onClick={handleDownload} size="icon">
           <PiDownloadSimple className="h-5 w-5" />
+          <span className="sr-only">Download btn</span>
         </Button>
       </div>
       <TransformWrapper
@@ -67,7 +68,7 @@ export default function MermaidGraph({ chart }: { chart: string }) {
         minScale={0.8}
       >
         {({ zoomIn, zoomOut }) => (
-          <div className="relative">
+          <div className="relative bg-muted dark:bg-card">
             <div className="space-x-2.5 absolute right-3 top-3 z-10">
               <Button
                 variant="outline"
@@ -75,9 +76,11 @@ export default function MermaidGraph({ chart }: { chart: string }) {
                 size="icon"
               >
                 <PiMagnifyingGlassMinusLight className="h-5 w-5" />
+                <span className="sr-only">Zoom out btn</span>
               </Button>
               <Button onClick={() => zoomIn(0.3)} variant="outline" size="icon">
                 <PiMagnifyingGlassPlusLight className="h-5 w-5" />
+                <span className="sr-only">Zoom in btn</span>
               </Button>
             </div>
             <TransformComponent

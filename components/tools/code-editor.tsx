@@ -30,6 +30,7 @@ export default function CodeEditor({
         onValueChange={onValueChange}
         highlight={(code) => highlight(code, languages.sql, "sql")}
         padding={10}
+        textareaId="code-editor"
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 14,
