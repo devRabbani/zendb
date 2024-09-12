@@ -1,6 +1,6 @@
 export const FOREIGN_KEY_REGEX = /REFERENCES\s+(\w+)\s*(?:\((\w+)\)|(\w+))/i;
 
-export const SAMPLE_SCEMA = {
+export const SAMPLE_SCHEMA = {
   prisma: `
 model User {
   id      Int      @id @default(autoincrement())
@@ -37,9 +37,33 @@ model Tag {
 }
 
 model Category {
-  id    Int            @id @default(autoincrement())
-  name  String         @unique
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
   posts Post[]
 }
+`,
+  simple: `User
+id            Int     Primary Key
+name          Text
+email         Text    Unique
+password_hash Text
+created_at    DateTime
+updated_at    DateTime
+
+Post
+id            Int     Primary Key
+user_id       Int     Foreign Key references User id
+title         Text
+body          Text
+created_at    DateTime
+updated_at    DateTime
+
+Comment
+id            Int     Primary Key
+post_id       Int     Foreign Key references Post(id)
+user_id       Int     Foreign Key references User(id)
+body          Text
+created_at    DateTime
+updated_at    DateTime
 `,
 };

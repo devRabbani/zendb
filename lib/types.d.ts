@@ -29,3 +29,5 @@ export type Table = {
   name: string;
   columns: Column[];
 };
+
+export type SchemaType = "prisma" | "simple";

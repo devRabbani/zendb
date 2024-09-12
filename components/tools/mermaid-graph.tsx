@@ -35,6 +35,7 @@ export default function MermaidGraph({ chart }: { chart: string }) {
       }
     } catch (error: any) {
       console.log("Error generating ERD", error?.message);
+      toast.error("Error parsing ERD code");
     }
   }, [chart, isDarkMode]);
 

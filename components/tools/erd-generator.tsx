@@ -1,20 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import mermaid from "mermaid";
 import CodeEditor from "./code-editor";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { getERDFromSimple } from "@/lib/actions";
-import { Table } from "./schema-visualizer";
-import { Column } from "@/lib/types";
-import getERDFromPrisma from "@/lib/actions/getERDFromPrisma";
-import Mermaid from "./mermaid";
+import type { SchemaType } from "@/lib/types";
 import CardWrapper from "../card-wrapper";
-import { FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 import MermaidGraph from "./mermaid-graph";
 import { HelpCircle } from "lucide-react";
@@ -23,11 +16,45 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
-import getERDFromPrisma3 from "@/lib/actions/getERDFromPrisma3";
+import CopySampleBtn from "./copy-sample.btn";
+import generateERDFromPrisma from "@/lib/actions/getERDFromPrisma";
+
+const HelpContent = ({ type }: { type: SchemaType }) => {
+  if (type === "prisma") {
+    return (
+      <>
+        <p className="text-[0.8rem] leading-relaxed">
+          Ensure that you provide only a correctly formatted Prisma schema to
+          avoid any issues.
+        </p>
+
+        <CopySampleBtn />
+      </>
+    );
+  }
+  return (
+    <>
+      <p className="text-[0.8rem] leading-relaxed">
+        Please enter the table structures one per paragraph, with columns listed
+        on separate lines. For example:
+      </p>
+      <pre className="mt-2">
+        <code className="text-xs whitespace-pre">
+          Order{"\n"}
+          id Int Primary Key {"\n"}
+          userId Int references User(id){"\n"}
+          total_amount Decimal
+        </code>
+      </pre>
+
+      <CopySampleBtn variant="simple" />
+    </>
+  );
+};
 
 export default function ERDGenerator() {
   const [schema, setSchema] = useState("");
-  const [schemaType, setSchemaType] = useState("prisma");
+  const [schemaType, setSchemaType] = useState<SchemaType>("prisma");
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
 
@@ -37,11 +64,10 @@ export default function ERDGenerator() {
       const mermaidCode =
         schemaType === "simple"
           ? await getERDFromSimple(schema)
-          : await getERDFromPrisma3(schema);
-      console.log(mermaidCode);
+          : await generateERDFromPrisma(schema);
       setDiagram(mermaidCode);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log("ER Generate", error?.message);
       setDiagram("");
       setError("Something went wrong, Make sure your schema is valid");
     }
@@ -55,7 +81,7 @@ export default function ERDGenerator() {
     <div className="space-y-7">
       <div className="space-y-4">
         <Tabs
-          onValueChange={(type) => setSchemaType(type)}
+          onValueChange={(type) => setSchemaType(type as SchemaType)}
           defaultValue="prisma"
         >
           <TabsList>
@@ -66,20 +92,16 @@ export default function ERDGenerator() {
         <CardWrapper className="mb-4">
           <div className="space-y-2.5">
             <div className="flex justify-between item-center">
-              <Label htmlFor="code-editor">Paste your form schema here</Label>
-              <HoverCard>
+              <Label htmlFor="code-editor">
+                Paste your {schemaType === "prisma" ? "Prisma" : "Text"} Schema
+                here
+              </Label>
+              <HoverCard openDelay={0}>
                 <HoverCardTrigger className="cursor-pointer">
-                  <HelpCircle className="h-6 w-6 text-muted-foreground" />
+                  <HelpCircle className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
                 </HoverCardTrigger>
                 <HoverCardContent>
-                  <p className="text-[0.8rem] leading-relaxed">
-                    Ensure that you provide only a correctly formatted Prisma
-                    schema to avoid any issues.
-                  </p>
-
-                  <Button variant="outline" className="mt-5" size="sm">
-                    Copy Sample Schema
-                  </Button>
+                  <HelpContent type={schemaType} />
                 </HoverCardContent>
               </HoverCard>
             </div>
@@ -87,11 +109,13 @@ export default function ERDGenerator() {
             <CodeEditor
               value={schema}
               onValueChange={onSchemaChange}
-              placeholder="Enter your Prisma schema here"
+              placeholder={`Enter your ${
+                schemaType === "prisma" ? "Prisma" : "Simple Text"
+              } schema here`}
             />
             <p className="text-[0.8rem] text-muted-foreground">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel,
-              laboriosam.
+              Before generating, ensure the schema type and structure match your
+              selected ERD diagram settings
             </p>
           </div>
           <Button

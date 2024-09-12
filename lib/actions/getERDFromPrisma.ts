@@ -1,93 +1,78 @@
-"use server";
+import { parsePrismaSchema, PrismaType } from "@loancrate/prisma-schema-parser";
 
-import { parsePrismaSchema } from "@loancrate/prisma-schema-parser";
-
-const getERDFromPrisma = async (input: string) => {
-  const output = parsePrismaSchema(input);
-  let mermaidSyntax: string = "erDiagram\n";
-  const relationships = new Map();
-  const models = new Map();
-
-  // Setting Up The models and fileds
-  output.declarations.forEach((declaration) => {
-    if (declaration.kind === "model") {
-      models.set(
-        declaration.name.value,
-        new Set(
-          declaration.members
-            .filter((member) => member.kind === "field")
-            .map((member) => member.name.value)
-        )
-      );
-    }
-  });
+const getFieldTypeName = (type: PrismaType) => {
+  return type.kind === "typeId"
+    ? type.name.value
+    : type.type.kind === "typeId"
+    ? type.type.name.value
+    : "";
+};
+export default async function generateERDFromPrisma(input: string) {
+  const parsedSchema = parsePrismaSchema(input);
+  let mermaidCode = "erDiagram\n";
+  const relationships: Set<string> = new Set();
 
   // Generate Diagram
-  output.declarations.forEach((declaration) => {
-    if (declaration.kind === "model") {
-      const modelName = declaration.name.value;
-      mermaidSyntax += `  ${modelName} {\n`;
-      declaration.members.forEach((member) => {
-        if (member.kind === "field") {
-          const fieldType =
-            member.type.name?.value || member.type.type?.name?.value;
-
-          // Field Skipping that defines relationship
-          if (!models.has(fieldType) && member.type.kind !== "list") {
-            mermaidSyntax += `       ${fieldType} ${member.name.value}\n`;
-          }
-
-          if (member.type.kind === "list") {
-            const relatedModel = fieldType;
-
-            if (models.has(relatedModel)) {
-              const relationKey = [modelName, relatedModel].sort().join("-"); //Sorting make unique
-
-              // Checking if the relationship already exists
-              if (!relationships.has(relationKey)) {
-                // Many to Many relationship check
-                if (
-                  models.get(relatedModel).has(modelName.toLowerCase() + "s")
-                ) {
-                  relationships.set(
-                    relationKey,
-                    `  ${modelName} }o--o{ ${relatedModel} : "belongs to many"`
-                  );
-                } else {
-                  relationships.set(
-                    relationKey,
-                    `  ${modelName} ||--o{ ${relatedModel} : "has many"`
-                  );
+  parsedSchema.declarations.forEach((d) => {
+    if (d.kind === "model") {
+      const currentModel = d.name.value;
+      mermaidCode += `${currentModel}{\n`;
+      d.members.forEach((m) => {
+        if (m.kind === "field") {
+          const relatedModelName = getFieldTypeName(m.type);
+          const relatedModel = parsedSchema.declarations.find(
+            (d2) => d2?.name?.value === relatedModelName
+          );
+          if (relatedModel?.kind === "model") {
+            if (m.type.kind === "list") {
+              relatedModel.members.forEach((m2) => {
+                if (m2.kind === "field") {
+                  const currentFieldType = getFieldTypeName(m2.type);
+                  if (currentFieldType === currentModel) {
+                    if (m2.type.kind === "list") {
+                      relationships.add(
+                        [currentModel, relatedModelName]
+                          .sort()
+                          .join(" }o--o{ ") + `: "many to many"`
+                      );
+                    } else {
+                      relationships.add(
+                        `${currentModel} ||--o{ ${relatedModelName}: "has many"`
+                      );
+                    }
+                  }
                 }
-              }
+              });
+            } else {
+              relatedModel.members.forEach((m2) => {
+                if (m2.kind === "field") {
+                  const currentFieldType = getFieldTypeName(m2.type);
+                  if (currentFieldType === currentModel) {
+                    if (m2.type.kind === "list") {
+                      relationships.add(
+                        `${currentModel} }|--|| ${relatedModelName}: "belongs to"`
+                      );
+                    } else {
+                      relationships.add(
+                        [currentModel, relatedModelName]
+                          .sort()
+                          .join(" ||--|| ") + ` : "has one"`
+                      );
+                    }
+                  }
+                }
+              });
             }
-          } else if (models.has(fieldType)) {
-            const relationKey = [modelName, fieldType].sort().join("-"); //Sorting make unique
-
-            //   Checking wheter its already exist
-            if (!relationships.has(relationKey)) {
-              //   One to One relationship check
-              if (models.get(fieldType).has(modelName.toLowerCase())) {
-                relationships.set(
-                  relationKey,
-                  `  ${modelName} ||--|| ${fieldType} : "has one"`
-                );
-              } else {
-                relationships.set(
-                  relationKey,
-                  `  ${modelName} }o--|| ${fieldType} : "belongs to"`
-                );
-              }
-            }
+          } else {
+            mermaidCode += `   ${m.name.value} ${relatedModelName}\n`;
           }
         }
       });
-      mermaidSyntax += "  }\n";
+      mermaidCode += `}\n`;
     }
   });
+  // Add relationships to Mermaid code
+  mermaidCode += Array.from(relationships).join("\n");
 
-  mermaidSyntax += Array.from(relationships.values()).join("\n");
-  return mermaidSyntax;
-};
-
-export default getERDFromPrisma;
+  return mermaidCode;
+}
