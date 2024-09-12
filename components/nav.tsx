@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import toolNames from "@/lib/toolNames";
 import { MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -16,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
+import toolNames from "@/lib/tools-utils/toolNames";
 
 export default function Nav() {
   const pathname = usePathname();

@@ -1,5 +1,5 @@
-import { FOREIGN_KEY_REGEX } from "./constants";
-import { Column, Table } from "./types";
+import { FOREIGN_KEY_REGEX } from "../constants";
+import type { Column, Table } from "../types";
 
 // Parse Simple text Based Schema
 export const parseSchema = (input: string): Table[] => {
@@ -113,4 +113,11 @@ export const downloadSVG = (svg: string) => {
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
+};
+
+// Generate ERD from simple schema
+export const getERDFromSimple = (schema: string) => {
+  const tables = parseSchema(schema);
+  const code = generateERD(tables);
+  return code;
 };

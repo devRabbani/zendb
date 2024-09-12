@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import CodeEditor from "./code-editor";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { getERDFromSimple } from "@/lib/actions";
 import type { SchemaType } from "@/lib/types";
 import CardWrapper from "../card-wrapper";
 import { Label } from "../ui/label";
@@ -17,7 +16,8 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import CopySampleBtn from "./copy-sample.btn";
-import generateERDFromPrisma from "@/lib/actions/getERDFromPrisma";
+import { getERDFromSimple } from "@/lib/tools-utils/commonToolsUtils";
+import generateERDFromPrisma from "@/lib/tools-utils/getERDFromPrisma";
 
 const HelpContent = ({ type }: { type: SchemaType }) => {
   if (type === "prisma") {
@@ -63,8 +63,8 @@ export default function ERDGenerator() {
       setError(""); //Clearing Error
       const mermaidCode =
         schemaType === "simple"
-          ? await getERDFromSimple(schema)
-          : await generateERDFromPrisma(schema);
+          ? getERDFromSimple(schema)
+          : generateERDFromPrisma(schema);
       setDiagram(mermaidCode);
     } catch (error: any) {
       console.log("ER Generate", error?.message);
