@@ -31,3 +31,20 @@ export type Table = {
 };
 
 export type SchemaType = "prisma" | "simple";
+
+export type ImpactLevel = "High" | "Medium" | "Low";
+
+export type ImpactAnalysis = {
+  affectedTables: string[];
+  cascadeDepth: number;
+  impactLevel: ImpactLevel;
+  description: string;
+};
+
+export type Suggestion = {
+  type: "warning" | "improvement" | "good";
+  message: string;
+  details: string;
+  impact: "High" | "Medium" | "Low";
+  affectedTables: string[];
+};

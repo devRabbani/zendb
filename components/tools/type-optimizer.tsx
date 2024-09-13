@@ -1,6 +1,6 @@
 "use client";
 
-import { analyzeType } from "@/lib/type-tool-utils";
+import { analyzeType } from "@/lib/tools-utils/analyze-type";
 import { useState } from "react";
 import validator from "validator";
 

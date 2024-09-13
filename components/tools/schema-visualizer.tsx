@@ -129,7 +129,7 @@ updated_at    DateTime
         )}
       </CardWrapper>
       {parsedSchema.length > 0 && (
-        <Tabs defaultValue="impact">
+        <Tabs defaultValue="suggestions">
           <TabsList className="h-10">
             <TabsTrigger className="py-1.5" value="stats">
               Table Statistics
@@ -158,51 +158,6 @@ updated_at    DateTime
           </TabsContent>
         </Tabs>
       )}
-      {/* <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Advanced Foreign Key Visualizer</CardTitle>
-          <CardDescription>
-            Enter your database schema to visualize and analyze foreign key
-            relationships
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CodeEditor value={schema} onValueChange={onValueChange} />
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          <Button onClick={handleVisualize} className="mb-4">
-            Visualize and Analyze
-          </Button>
-          {parsedSchema.length > 0 && (
-            <Tabs defaultValue="complexity">
-              <TabsList>
-                <TabsTrigger value="stats">Table Statistics</TabsTrigger>
-                <TabsTrigger value="complexity">Schema Complexity</TabsTrigger>
-                <TabsTrigger value="impact">Impact Analysis</TabsTrigger>
-                <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
-              </TabsList>
-              <TabsContent value="stats">
-                <TableStatistics schema={parsedSchema} />
-              </TabsContent>
-              <TabsContent value="complexity">
-                <SchemaComplexity schema={parsedSchema} />
-                <SchemaComplexity2 schema={parsedSchema} />
-              </TabsContent>
-              <TabsContent value="impact">
-                <SchemaImpactAnalysis schema={parsedSchema} />
-              </TabsContent>
-              <TabsContent value="suggestions">
-                <SchemaSuggestions schema={parsedSchema} />
-              </TabsContent>
-            </Tabs>
-          )}
-        </CardContent>
-      </Card> */}
     </div>
   );
 }

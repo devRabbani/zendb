@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
-import toolNames from "@/lib/tools-utils/toolNames";
+import toolNames from "@/lib/tools-utils/tool-names";
 
 export default function Nav() {
   const pathname = usePathname();

@@ -16,8 +16,8 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import CopySampleBtn from "./copy-sample.btn";
-import { getERDFromSimple } from "@/lib/tools-utils/commonToolsUtils";
-import generateERDFromPrisma from "@/lib/tools-utils/getERDFromPrisma";
+import { getERDFromSimple } from "@/lib/tools-utils";
+import generateERDFromPrisma from "@/lib/tools-utils/erd-prisma";
 
 const HelpContent = ({ type }: { type: SchemaType }) => {
   if (type === "prisma") {

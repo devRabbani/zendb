@@ -11,7 +11,7 @@ import {
 } from "react-icons/pi";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { toast } from "sonner";
-import { downloadSVG } from "@/lib/tools-utils/commonToolsUtils";
+import { downloadSVG } from "@/lib/tools-utils";
 
 export default function MermaidGraph({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string>("");

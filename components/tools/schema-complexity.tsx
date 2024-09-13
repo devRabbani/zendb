@@ -16,7 +16,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { COMPLEXITY_LABELS_SHORT } from "@/lib/constants";
-import { calculateComplexity } from "@/lib/tools-utils/commonToolsUtils";
+import { calculateComplexity } from "@/lib/tools-utils";
 
 const chartConfig = {
   complexity: {
