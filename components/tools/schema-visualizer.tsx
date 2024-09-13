@@ -1,89 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertCircle } from "lucide-react";
 import SchemaSuggestions from "./schema-suggestion";
 import CodeEditor from "./code-editor";
-import { Column, Table } from "@/lib/types";
 import CardWrapper from "../card-wrapper";
 import { Label } from "../ui/label";
 import SchemaHelperPopup from "./schema-helper-popup";
 import SchemaComplexity from "./schema-complexity";
 import TableStatistics from "./table-statistics";
 import SchemaImpactAnalysis from "./schema-impact-analysis";
+import { parseSchema } from "@/lib/tools-utils";
+import type { Table } from "@/lib/types";
 
 export default function SchemaVisualizer() {
-  const [schema, setSchema] = useState(`User
-id            Int     Primary Key
-name          Text
-email         Text    Unique
-password_hash Text
-created_at    DateTime
-updated_at    DateTime
-
-Post
-id            Int     Primary Key
-user_id       Int     Foreign Key references User id
-title         Text
-body          Text
-created_at    DateTime
-updated_at    DateTime
-
-Comment
-id            Int     Primary Key
-post_id       Int     Foreign Key references Post(id)
-user_id       Int     Foreign Key references User(id)
-body          Text
-created_at    DateTime
-updated_at    DateTime
-`);
+  const [schema, setSchema] = useState("");
   const [parsedSchema, setParsedSchema] = useState<Table[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  const parseSchema = (input: string): Table[] => {
-    try {
-      const foreignKeyRegex = /REFERENCES\s+(\w+)\s*(?:\((\w+)\)|(\w+))/i;
-
-      const tables = input
-        .trim()
-        .split(/\n{2,}/)
-        .map((tableStr) => {
-          const [tableName, ...columnStrs] = tableStr.split("\n");
-
-          const columns = columnStrs.map((colStr) => {
-            const [name, type, ...fkParts] = colStr.trim().split(" ");
-            const column: Column = { name, type };
-
-            if (fkParts.length > 0) {
-              const match = fkParts.join(" ").match(foreignKeyRegex) || [];
-              if (match) {
-                const [, fkTable, fkColumnInParens, fkColumnNoParens] = match;
-                const fkColumn = fkColumnInParens || fkColumnNoParens;
-
-                if (fkTable && fkColumn) {
-                  column.foreignKey = { table: fkTable, column: fkColumn };
-                }
-              }
-            }
-            return column;
-          });
-          return { name: tableName.trim(), columns };
-        });
-      return tables;
-    } catch (err) {
-      throw new Error("Invalid schema format. Please check your input.");
-    }
-  };
 
   const handleVisualize = () => {
     try {
@@ -98,10 +33,6 @@ updated_at    DateTime
 
   const onValueChange = useCallback((value: string) => {
     setSchema(value);
-  }, []);
-
-  useEffect(() => {
-    handleVisualize();
   }, []);
 
   return (
@@ -129,7 +60,7 @@ updated_at    DateTime
         )}
       </CardWrapper>
       {parsedSchema.length > 0 && (
-        <Tabs defaultValue="suggestions">
+        <Tabs defaultValue="stats">
           <TabsList className="h-10">
             <TabsTrigger className="py-1.5" value="stats">
               Table Statistics
