@@ -12,7 +12,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle } from "lucide-react";
-import TableStatistics from "./table-statistics";
 import SchemaImpactAnalysis from "./schema-impact-analysis";
 import SchemaSuggestions from "./schema-suggestion";
 import CodeEditor from "./code-editor";
@@ -21,6 +20,7 @@ import CardWrapper from "../card-wrapper";
 import { Label } from "../ui/label";
 import SchemaHelperPopup from "./schema-helper-popup";
 import SchemaComplexity from "./schema-complexity";
+import TableStatistics from "./table-statistics";
 
 export default function SchemaVisualizer() {
   const [schema, setSchema] = useState(`User
@@ -125,7 +125,7 @@ updated_at    DateTime
         )}
       </CardWrapper>
       {parsedSchema.length > 0 && (
-        <Tabs defaultValue="complexity">
+        <Tabs defaultValue="stats">
           <TabsList className="h-10">
             <TabsTrigger className="py-1.5" value="stats">
               Table Statistics
