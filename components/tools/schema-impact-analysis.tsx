@@ -17,7 +17,9 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, AlertTriangle, CheckCircle2 } from "lucide-react";
-import { Table } from "./schema-visualizer";
+import { Table } from "@/lib/types";
+import { Label } from "../ui/label";
+import { Badge } from "../ui/badge";
 
 type ImpactLevel = "High" | "Medium" | "Low";
 
@@ -85,76 +87,108 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
   };
 
   return (
-    <div className="space-y-4">
-      <Select onValueChange={setSelectedTable}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select a table" />
-        </SelectTrigger>
-        <SelectContent>
-          {schema.map((table) => (
-            <SelectItem key={table.name} value={table.name}>
-              {table.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      {selectedTable && (
-        <Select onValueChange={handleColumnSelect}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a column" />
-          </SelectTrigger>
-          <SelectContent>
-            {schema
-              .find((t) => t.name === selectedTable)
-              ?.columns.map((column) => (
-                <SelectItem key={column.name} value={column.name}>
-                  {column.name}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
-      )}
-      {impact && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Impact Analysis</CardTitle>
-            <CardDescription>
-              Analysis for {selectedTable}.{selectedColumn}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Alert
-              variant={
-                impact.impactLevel === "High"
-                  ? "destructive"
-                  : impact.impactLevel === "Medium"
-                  ? "default"
-                  : "success"
-              }
-            >
-              {impact.impactLevel === "High" && (
-                <AlertCircle className="h-4 w-4" />
-              )}
-              {impact.impactLevel === "Medium" && (
-                <AlertTriangle className="h-4 w-4" />
-              )}
-              {impact.impactLevel === "Low" && (
-                <CheckCircle2 className="h-4 w-4" />
-              )}
-              <AlertTitle>Impact Level: {impact.impactLevel}</AlertTitle>
-              <AlertDescription>{impact.description}</AlertDescription>
-            </Alert>
-            <div className="mt-4">
-              <h4 className="font-semibold">Affected Tables:</h4>
-              <ul className="list-disc list-inside">
-                {impact.affectedTables.map((table) => (
-                  <li key={table}>{table}</li>
+    <Card className="min-h-[500px]">
+      <CardHeader>
+        <CardTitle>Schema Impact Analysis</CardTitle>
+        <CardDescription>
+          Overview of Schema Changes and Their Effects
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label htmlFor="table">Table</Label>
+            <Select onValueChange={setSelectedTable}>
+              <SelectTrigger id="table">
+                <SelectValue placeholder="Select a table" />
+              </SelectTrigger>
+              <SelectContent>
+                {schema.map((table) => (
+                  <SelectItem key={table.name} value={table.name}>
+                    {table.name}
+                  </SelectItem>
                 ))}
-              </ul>
+              </SelectContent>
+            </Select>
+          </div>
+          {selectedTable && (
+            <div className="space-y-2">
+              <Label htmlFor="column">Column</Label>
+              <Select onValueChange={handleColumnSelect}>
+                <SelectTrigger id="column">
+                  <SelectValue placeholder="Select a column" />
+                </SelectTrigger>
+                <SelectContent>
+                  {schema
+                    .find((t) => t.name === selectedTable)
+                    ?.columns.map((column) => (
+                      <SelectItem key={column.name} value={column.name}>
+                        {column.name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          )}{" "}
+        </div>
+        {impact && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Impact Analysis</CardTitle>
+              <CardDescription>
+                Analysis for{" "}
+                <strong>
+                  {selectedTable} ({selectedColumn})
+                </strong>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Alert
+                variant={
+                  impact.impactLevel === "High"
+                    ? "destructive"
+                    : impact.impactLevel === "Medium"
+                    ? "medium"
+                    : "success"
+                }
+              >
+                {impact.impactLevel === "High" && (
+                  <AlertCircle className="h-4 w-4" />
+                )}
+                {impact.impactLevel === "Medium" && (
+                  <AlertTriangle className="h-4 w-4" />
+                )}
+                {impact.impactLevel === "Low" && (
+                  <CheckCircle2 className="h-4 w-4" />
+                )}
+                <AlertTitle>Impact Level: {impact.impactLevel}</AlertTitle>
+                <AlertDescription>{impact.description}</AlertDescription>
+              </Alert>
+
+              <div className="mt-6 space-y-3">
+                <h4 className="font-semibold">Affected Tables:</h4>
+                {impact.affectedTables.length ? (
+                  <div className="flex gap-3 flex-wrap">
+                    {impact.affectedTables.map((table) => (
+                      <Badge
+                        variant="secondary"
+                        className="text-sm"
+                        key={table}
+                      >
+                        {table}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground/80 text-sm">
+                    No Table will be affected
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +12,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle } from "lucide-react";
-import SchemaImpactAnalysis from "./schema-impact-analysis";
 import SchemaSuggestions from "./schema-suggestion";
 import CodeEditor from "./code-editor";
 import { Column, Table } from "@/lib/types";
@@ -21,6 +20,7 @@ import { Label } from "../ui/label";
 import SchemaHelperPopup from "./schema-helper-popup";
 import SchemaComplexity from "./schema-complexity";
 import TableStatistics from "./table-statistics";
+import SchemaImpactAnalysis from "./schema-impact-analysis";
 
 export default function SchemaVisualizer() {
   const [schema, setSchema] = useState(`User
@@ -100,6 +100,10 @@ updated_at    DateTime
     setSchema(value);
   }, []);
 
+  useEffect(() => {
+    handleVisualize();
+  }, []);
+
   return (
     <div className="space-y-7">
       <CardWrapper className="mb-4">
@@ -125,7 +129,7 @@ updated_at    DateTime
         )}
       </CardWrapper>
       {parsedSchema.length > 0 && (
-        <Tabs defaultValue="stats">
+        <Tabs defaultValue="impact">
           <TabsList className="h-10">
             <TabsTrigger className="py-1.5" value="stats">
               Table Statistics
