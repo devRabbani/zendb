@@ -121,3 +121,30 @@ export const getERDFromSimple = (schema: string) => {
   const code = generateERD(tables);
   return code;
 };
+
+// Calculate Schema Complexity
+export const calculateComplexity = (schema: Table[]) => {
+  const tableCount = schema.length;
+  const totalColumns = schema.reduce(
+    (sum, table) => sum + table.columns.length,
+    0
+  );
+  const totalForeignKeys = schema.reduce(
+    (sum, table) => sum + table.columns.filter((col) => col.foreignKey).length,
+    0
+  );
+  const maxForeignKeys = Math.max(
+    ...schema.map(
+      (table) => table.columns.filter((col) => col.foreignKey).length
+    )
+  );
+  const avgColumnsPerTable = totalColumns / tableCount;
+
+  return {
+    tableCount,
+    avgColumnsPerTable,
+    totalForeignKeys,
+    maxForeignKeys,
+    normalizedComplexity: (totalForeignKeys / totalColumns) * 100,
+  };
+};

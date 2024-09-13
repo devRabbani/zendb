@@ -67,3 +67,11 @@ created_at    DateTime
 updated_at    DateTime
 `,
 };
+
+export const COMPLEXITY_LABELS_SHORT = [
+  "Table Count",
+  "Avg Col/Table",
+  "Total FK",
+  "Max FK/Table",
+  "Normalized",
+];
