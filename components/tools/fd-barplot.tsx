@@ -32,49 +32,19 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
+const chartConfig = {
+  intra: {
+    label: "Intra Table",
+    color: "hsl(var(--chart-2))",
+  },
+  inter: {
+    label: "Inter Table",
+    color: "hsl(var(--chart-3))",
+  },
+} satisfies ChartConfig;
+
 export default function FDBarPlot({ schema }: { schema: TableConstraint[] }) {
   const dependencies = getFunctionalDependencies(schema);
-
-  const groupedDependencies = dependencies.reduce((acc, dep) => {
-    if (!acc[dep.table]) {
-      acc[dep.table] = { "intra-table": 0, "inter-table": 0 };
-    }
-    acc[dep.table][dep.type]++;
-    return acc;
-  }, {} as Record<string, { "intra-table": number; "inter-table": number }>);
-
-  const chartData = Object.entries(groupedDependencies).map(
-    ([name, counts]) => ({
-      name,
-      "Intra-table": counts["intra-table"],
-      "Inter-table": counts["inter-table"],
-    })
-  );
-
-  const generateTreeMapData = () => {
-    return schema.map((table) => ({
-      name: table.name,
-      children: dependencies.map((col) => ({
-        name: col.dependent,
-        size: col.confidence,
-      })),
-    }));
-  };
-
-  const generateFDChartData = () => {
-    const fdCounts: { [key: string]: number } = {};
-    dependencies.forEach((fd) => {
-      const key = fd.table; // Get the table name
-      fdCounts[key] = (fdCounts[key] || 0) + 1;
-    });
-
-    return Object.entries(fdCounts).map(([table, count]) => ({
-      table,
-      dependencies: count,
-    }));
-  };
-
-  const fdChartData = generateFDChartData();
 
   const generateNewGraph = () => {
     const tabeleDtaa = dependencies.reduce((acc, curr) => {
@@ -97,16 +67,6 @@ export default function FDBarPlot({ schema }: { schema: TableConstraint[] }) {
 
   const chartData2 = generateNewGraph();
 
-  const chartConfig = {
-    intra: {
-      label: "Intra Table",
-      color: "hsl(var(--chart-2))",
-    },
-    inter: {
-      label: "Inter Table",
-      color: "hsl(var(--chart-3))",
-    },
-  } satisfies ChartConfig;
   return (
     <Card>
       <CardHeader>
