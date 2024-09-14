@@ -1,5 +1,5 @@
 import { FOREIGN_KEY_REGEX } from "../constants";
-import { FunctionalDependency, TableConstraint } from "../types";
+import type { FunctionalDependency, TableConstraint } from "../types";
 
 export const getFunctionalDependencies = (
   schema: TableConstraint[]
@@ -110,31 +110,75 @@ export const getFunctionalDependencies = (
   return dependencies;
 };
 
-export function generateFDGraph(dependencies: FunctionalDependency[]): string {
-  let graph = "graph TD\n";
+export const generateFDChartData = (dependencies: FunctionalDependency[]) => {
+  const tabeleDtaa = dependencies.reduce((acc, curr) => {
+    const tableName = curr.table.split(" -> ")[0];
 
-  const highConfidenceDeps = dependencies.filter(
-    (dep) => dep.confidence >= 0.8
-  );
+    if (!acc[tableName]) {
+      acc[tableName] = { name: tableName, intra: 0, inter: 0 };
+    }
 
-  highConfidenceDeps.forEach((dep, index) => {
-    const determinantId = `${dep.table}_${dep.determinant.join("_")}`.replace(
-      /\s/g,
-      "_"
-    );
-    const dependentId = `${dep.table}_${dep.dependent}`.replace(/\s/g, "_");
+    if (curr.type === "intra-table") {
+      acc[tableName].intra++;
+    } else {
+      acc[tableName].inter++;
+    }
+    return acc;
+  }, {} as Record<string, { name: string; intra: number; inter: number }>);
 
-    graph += `  ${determinantId}["${dep.table}: ${dep.determinant.join(
-      ", "
-    )}"] -->|${dep.confidence.toFixed(2)}| ${dependentId}["${dep.table}: ${
-      dep.dependent
-    }"]\n`;
+  return Object.values(tabeleDtaa);
+};
 
-    // Add styling based on confidence
-    const color = dep.confidence >= 0.9 ? "#22c55e" : "#eab308";
-    graph += `  style ${determinantId} fill:${color},stroke:#374151\n`;
-    graph += `  style ${dependentId} fill:${color},stroke:#374151\n`;
+export const generateFDMermaid = (dependencies: FunctionalDependency[]) => {
+  let diagram = "graph TD\n";
+
+  const tables = new Set<string>();
+  const relations = new Set<string>();
+  const fdMap = new Map<string, string[]>();
+
+  // Collect data
+  dependencies.forEach((fd) => {
+    const tableName = fd.table.split(" -> ")[0].toLowerCase();
+    tables.add(tableName);
+
+    if (fd.type === "intra-table") {
+      if (!fdMap.has(tableName)) {
+        fdMap.set(tableName, []);
+      }
+      fdMap
+        .get(tableName)!
+        .push(`${fd.determinant.join(", ")} → ${fd.dependent}`);
+    } else if (fd.type === "inter-table") {
+      const [sourceTable, targetTable] = fd.table.toLowerCase().split(" -> ");
+      relations.add(
+        `${sourceTable} -->|${fd.determinant.join(", ")}| ${targetTable}`
+      );
+    }
   });
 
-  return graph;
-}
+  // Add table nodes
+  tables.forEach((table) => {
+    diagram += `    ${table}["${
+      table.charAt(0).toUpperCase() + table.slice(1)
+    }"]\n`;
+  });
+
+  // Add functional dependencies
+  tables.forEach((table) => {
+    if (fdMap.has(table)) {
+      diagram += `    subgraph ${table}_FD[${
+        table.charAt(0).toUpperCase() + table.slice(1)
+      }_FDs]\n`;
+      diagram += `        ${table}_fd["${fdMap.get(table)!.join(", ")}"]\n`;
+      diagram += "    end\n";
+      diagram += `    ${table} --> ${table}_FD\n`;
+    }
+  });
+
+  // Add relations between tables
+  relations.forEach((relation) => {
+    diagram += `    ${relation}\n`;
+  });
+
+  return diagram;
+};

@@ -1,5 +1,4 @@
-import { getFunctionalDependencies } from "@/lib/tools-utils/functional-dependency";
-import { TableConstraint } from "@/lib/types";
+import type { FunctionalDependency } from "@/lib/types";
 import { ScrollArea } from "../ui/scroll-area";
 import {
   Table,
@@ -10,9 +9,11 @@ import {
   TableRow,
 } from "../ui/table";
 
-export default function FDTable({ schema }: { schema: TableConstraint[] }) {
-  const dependencies = getFunctionalDependencies(schema);
-
+export default function FDTable({
+  dependencies,
+}: {
+  dependencies: FunctionalDependency[];
+}) {
   if (!dependencies?.length) return;
   return (
     <ScrollArea className="h-[500px] w-full rounded-md border p-4">

@@ -1,18 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  Legend,
-  ResponsiveContainer,
-  Treemap,
-  XAxis,
-  YAxis,
-  Sankey,
-  ScatterChart,
-  ZAxis,
-  Scatter,
-  Cell,
-  CartesianGrid,
-} from "recharts";
+import { Bar, BarChart, XAxis, CartesianGrid } from "recharts";
 import {
   Card,
   CardContent,
@@ -20,9 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Tooltip } from "../ui/tooltip";
-import { getFunctionalDependencies } from "@/lib/tools-utils/functional-dependency";
-import { TableConstraint } from "@/lib/types";
+import { generateFDChartData } from "@/lib/tools-utils/functional-dependency";
+import type { FunctionalDependency } from "@/lib/types";
 import {
   ChartConfig,
   ChartContainer,
@@ -31,6 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 const chartConfig = {
   intra: {
@@ -43,29 +30,32 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function FDBarPlot({ schema }: { schema: TableConstraint[] }) {
-  const dependencies = getFunctionalDependencies(schema);
+type ChartDataType = {
+  name: string;
+  intra: number;
+  inter: number;
+}[];
 
-  const generateNewGraph = () => {
-    const tabeleDtaa = dependencies.reduce((acc, curr) => {
-      const tableName = curr.table.split(" -> ")[0];
+export default function FDBarPlot({
+  dependencies,
+}: {
+  dependencies: FunctionalDependency[];
+}) {
+  const [chartData, setChartData] = useState<ChartDataType>([]);
 
-      if (!acc[tableName]) {
-        acc[tableName] = { name: tableName, intra: 0, inter: 0 };
-      }
-
-      if (curr.type === "intra-table") {
-        acc[tableName].intra++;
-      } else {
-        acc[tableName].inter++;
-      }
-      return acc;
-    }, {} as Record<string, { name: string; intra: number; inter: number }>);
-
-    return Object.values(tabeleDtaa);
+  const handleGraphData = () => {
+    try {
+      const res = generateFDChartData(dependencies);
+      setChartData(res);
+    } catch (error: any) {
+      console.log(error?.message);
+      toast.error("Unable to generate Chart Data");
+    }
   };
 
-  const chartData = generateNewGraph();
+  useEffect(() => {
+    handleGraphData();
+  }, [dependencies]);
 
   return (
     <Card className="min-h-[500px]">
