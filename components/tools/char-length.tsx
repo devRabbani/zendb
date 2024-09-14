@@ -1,15 +1,19 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  PiBinaryDuotone,
+  PiCpuDuotone,
+  PiLightbulbDuotone,
+} from "react-icons/pi";
 
 export default function CharLength() {
   const [charLength, setCharLength] = useState<number>(0);
 
-  const calculateBinary = (num: number) => {
-    return num.toString(2);
-  };
+  const calculateBinary = (num: number) => num.toString(2);
 
   const calculateBits = (binary: string) => binary.length;
 
@@ -50,8 +54,10 @@ export default function CharLength() {
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const intNum = parseInt(e.target.value, 10);
-    setCharLength(isNaN(intNum) ? 0 : intNum);
+    const value = e.target.value;
+    const numericValue = parseInt(value, 10);
+
+    setCharLength(isNaN(numericValue) ? 0 : Math.min(numericValue, 65000));
   };
 
   const binary = calculateBinary(charLength);
@@ -59,16 +65,62 @@ export default function CharLength() {
 
   const suggetions = getSuggestion(charLength, bits);
   return (
-    <div>
-      <input
-        className="text-black"
-        type="text"
-        onChange={handleInputChange}
-        value={charLength}
-      />
-      <p>Binary: {binary}</p>
-      <p>Bits: {bits}</p>
-      <p>{suggetions}</p>
-    </div>
+    <Card className="w-full">
+      <CardContent className="p-6 space-y-9">
+        <div className="space-y-2">
+          <Label htmlFor="char-length">Enter Character Length</Label>
+          <Input
+            id="char-length"
+            type="number"
+            onChange={handleInputChange}
+            value={charLength.toString()}
+            min="0"
+            max="65000"
+            placeholder="Enter a number"
+            className="text-lg"
+          />
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2 mb-2">
+                <PiBinaryDuotone className="w-5 h-5 text-primary" />
+                <span className="font-semibold">Binary Representation:</span>
+              </div>
+              <div className="grid grid-cols-8 gap-2">
+                {binary.split("").map((bit, index) => (
+                  <div
+                    key={index}
+                    className={`w-full aspect-square flex items-center justify-center border-2 rounded-md text-lg font-mono ${
+                      bit === "1"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-muted bg-muted/10 text-muted-foreground"
+                    }`}
+                  >
+                    {bit}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center border space-x-2 p-4 bg-muted dark:bg-muted/30 rounded-md">
+              <PiCpuDuotone className="w-5 h-5 text-primary" />
+              <span className="font-semibold">Bits used:</span>
+              <span className="text-lg font-mono">{bits}</span>
+            </div>
+          </div>
+          <div className="p-4 bg-muted border dark:bg-muted/30 rounded-md flex flex-col h-full">
+            <div className="flex items-center space-x-2 mb-4">
+              <PiLightbulbDuotone className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-semibold">Suggestion</h3>
+            </div>
+            <p className="text-sm">{suggetions}</p>
+            <div className="mt-4 text-sm text-muted-foreground/70 ">
+              <strong>Tip:</strong> Experiment with different values to see how
+              they affect binary representation and storage efficiency.
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
