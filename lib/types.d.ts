@@ -33,7 +33,7 @@ export type Table = {
 export type ColumnsConstraint = {
   name: string;
   type: string;
-  constraints: string[];
+  constraints: string;
 };
 
 export type TableConstraint = {
@@ -65,4 +65,12 @@ export type NormSuggestionType = {
   severity: "low" | "medium" | "high";
   message: string;
   details: string;
+};
+
+export type FunctionalDependency = {
+  table: string;
+  determinant: string[];
+  dependent: string;
+  confidence: number;
+  type: "intra-table" | "inter-table";
 };

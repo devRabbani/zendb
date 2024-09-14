@@ -56,7 +56,6 @@ export default function MermaidGraph({ chart }: { chart: string }) {
     }
   };
 
-  console.log(!!svg, !!chart, "ssss");
   return (
     <div className="rounded-xl border border-border overflow-hidden bg-card text-card-foreground shadow">
       <div className="px-6 border-b border-border py-2.5 dark:bg-muted/50 flex justify-between items-center">

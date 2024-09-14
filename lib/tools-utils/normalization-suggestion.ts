@@ -103,8 +103,8 @@ const getPotentialKeys = (table: TableConstraint): Column[] =>
   table.columns.filter(
     (col) =>
       col.name.toLowerCase().includes("id") ||
-      col.constraints.includes("PRIMARY KEY") ||
-      col.constraints.includes("UNIQUE")
+      col.constraints.includes("primary key") ||
+      col.constraints.includes("unique")
   );
 
 const getNonKeyColumns = (
@@ -219,7 +219,7 @@ const checkForCompoundAttributes = (
     return [
       {
         type: "1NF",
-        message: `Table ${table.name}: Potential compound attributes detected.`,
+        message: `Table ${table.name} Potential compound attributes detected.`,
         severity: "medium",
         details: `Consider splitting these attributes: ${compoundAttributes.join(
           ", "

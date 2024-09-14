@@ -66,7 +66,7 @@ export const parseSchemaConstraints = (input: string): TableConstraint[] => {
         return {
           name: colName,
           type: colType,
-          constraints: constraints,
+          constraints: constraints.join(" ").toLowerCase(),
         };
       });
 

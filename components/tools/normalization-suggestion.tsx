@@ -11,7 +11,7 @@ import {
 } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { AlertCircle, AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function NormalizationSuggestion({
@@ -58,7 +58,7 @@ export default function NormalizationSuggestion({
                       ? "medium"
                       : "default"
                   }
-                  className="space-x-1"
+                  className="space-x-1 pt-4"
                 >
                   {suggestion.severity === "high" && (
                     <AlertCircle className="h-5 w-5" />
@@ -77,7 +77,7 @@ export default function NormalizationSuggestion({
                     <Badge
                       variant="outline"
                       className={cn(
-                        "mt-2 text-sm",
+                        "mt-2 text-[0.8rem]",
                         suggestion.severity === "high"
                           ? "text-destructive"
                           : suggestion.severity === "medium"
