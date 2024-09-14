@@ -57,10 +57,12 @@ export default function ERDGenerator() {
   const [schemaType, setSchemaType] = useState<SchemaType>("prisma");
   const [diagram, setDiagram] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerate = async () => {
+    setIsLoading(true);
+    setError(""); //Clearing Error
     try {
-      setError(""); //Clearing Error
       const mermaidCode =
         schemaType === "simple"
           ? getERDFromSimple(schema)
@@ -70,6 +72,8 @@ export default function ERDGenerator() {
       console.log("ER Generate", error?.message);
       setDiagram("");
       setError("Something went wrong, Make sure your schema is valid");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -120,7 +124,7 @@ export default function ERDGenerator() {
           </div>
           <Button
             className="mt-6"
-            disabled={schema.length < 20}
+            disabled={isLoading || schema.length < 20}
             onClick={handleGenerate}
           >
             Generate Diagram

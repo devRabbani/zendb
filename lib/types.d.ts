@@ -30,6 +30,17 @@ export type Table = {
   columns: Column[];
 };
 
+export type ColumnsConstraint = {
+  name: string;
+  type: string;
+  constraints: string[];
+};
+
+export type TableConstraint = {
+  name: string;
+  columns: ColumnsConstraint[];
+};
+
 export type SchemaType = "prisma" | "simple";
 
 export type ImpactLevel = "High" | "Medium" | "Low";
@@ -41,10 +52,17 @@ export type ImpactAnalysis = {
   description: string;
 };
 
-export type Suggestion = {
+export type SchemaSuggestion = {
   type: "warning" | "improvement" | "good";
   message: string;
   details: string;
   impact: "High" | "Medium" | "Low";
   affectedTables: string[];
+};
+
+export type NormSuggestionType = {
+  type: "1NF" | "2NF" | "3NF" | "4NF" | "Denormalization" | "Redundancy";
+  severity: "low" | "medium" | "high";
+  message: string;
+  details: string;
 };

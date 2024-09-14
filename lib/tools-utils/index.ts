@@ -1,5 +1,11 @@
 import { FOREIGN_KEY_REGEX } from "../constants";
-import type { Column, ImpactAnalysis, ImpactLevel, Table } from "../types";
+import type {
+  Column,
+  ImpactAnalysis,
+  ImpactLevel,
+  Table,
+  TableConstraint,
+} from "../types";
 
 // Parse Simple text Based Schema
 export const parseSchema = (input: string): Table[] => {
@@ -40,6 +46,34 @@ export const parseSchema = (input: string): Table[] => {
     });
 
   return tables;
+};
+
+export const parseSchemaConstraints = (input: string): TableConstraint[] => {
+  // Parse the input string into an array of objects
+  const parsedSchema = input
+    .trim()
+    .split(/\n{2,}/) // Split by empty lines 2 or more \n
+    .map((tableStr) => {
+      const [tableName, ...columnStrs] = tableStr
+        .split("\n")
+        .map((line) => line.trim());
+
+      const columns = columnStrs.map((colStr) => {
+        const [colName, colType, ...constraints] = colStr
+          .split(" ")
+          .filter((item) => item); //Get ridd of empty strings
+
+        return {
+          name: colName,
+          type: colType,
+          constraints: constraints,
+        };
+      });
+
+      return { name: tableName.trim(), columns };
+    });
+
+  return parsedSchema;
 };
 
 // Check if a table is a classic junction table

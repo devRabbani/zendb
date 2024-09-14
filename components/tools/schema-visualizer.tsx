@@ -19,8 +19,10 @@ export default function SchemaVisualizer() {
   const [schema, setSchema] = useState("");
   const [parsedSchema, setParsedSchema] = useState<Table[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleVisualize = () => {
+    setIsLoading(true);
     try {
       const tables = parseSchema(schema);
       setParsedSchema(tables);
@@ -28,6 +30,8 @@ export default function SchemaVisualizer() {
     } catch (err: any) {
       setError(err?.message);
       setParsedSchema([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +41,7 @@ export default function SchemaVisualizer() {
 
   return (
     <div className="space-y-7">
-      <CardWrapper className="mb-4">
+      <CardWrapper>
         <div className="space-y-2.5">
           <div className="flex justify-between item-center">
             <Label htmlFor="code-editor">Paste your DB Schema here</Label>
@@ -49,7 +53,7 @@ export default function SchemaVisualizer() {
             button for sample schema and structure.
           </p>
         </div>
-        <Button onClick={handleVisualize} className="mt-6">
+        <Button disabled={isLoading} onClick={handleVisualize} className="mt-6">
           Visualize and Analyze
         </Button>
         {error && (

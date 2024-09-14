@@ -1,7 +1,7 @@
-import type { Suggestion, Table } from "@/lib/types";
+import type { SchemaSuggestion, Table } from "@/lib/types";
 
-export function analyzeSchemaSuggestions(schema: Table[]): Suggestion[] {
-  const suggestions: Suggestion[] = [];
+export function analyzeSchemaSuggestions(schema: Table[]): SchemaSuggestion[] {
+  const suggestions: SchemaSuggestion[] = [];
 
   checkPrimaryKeys(schema, suggestions);
   checkManyToManyRelationships(schema, suggestions);
@@ -15,7 +15,7 @@ export function analyzeSchemaSuggestions(schema: Table[]): Suggestion[] {
   return suggestions;
 }
 
-function checkPrimaryKeys(schema: Table[], suggestions: Suggestion[]) {
+function checkPrimaryKeys(schema: Table[], suggestions: SchemaSuggestion[]) {
   schema.forEach((table) => {
     if (!table.columns.some((col) => col.name.toLowerCase() === "id")) {
       suggestions.push({
@@ -32,7 +32,7 @@ function checkPrimaryKeys(schema: Table[], suggestions: Suggestion[]) {
 
 function checkManyToManyRelationships(
   schema: Table[],
-  suggestions: Suggestion[]
+  suggestions: SchemaSuggestion[]
 ) {
   schema.forEach((table) => {
     const foreignKeys = table.columns.filter((col) => col.foreignKey);
@@ -52,7 +52,7 @@ function checkManyToManyRelationships(
   });
 }
 
-function checkColumnCount(schema: Table[], suggestions: Suggestion[]) {
+function checkColumnCount(schema: Table[], suggestions: SchemaSuggestion[]) {
   schema.forEach((table) => {
     if (table.columns.length > 20) {
       suggestions.push({
@@ -67,7 +67,10 @@ function checkColumnCount(schema: Table[], suggestions: Suggestion[]) {
   });
 }
 
-function checkDenormalization(schema: Table[], suggestions: Suggestion[]) {
+function checkDenormalization(
+  schema: Table[],
+  suggestions: SchemaSuggestion[]
+) {
   const columnCounts: { [key: string]: string[] } = {};
   schema.forEach((table) => {
     table.columns.forEach((col) => {
@@ -96,7 +99,10 @@ function checkDenormalization(schema: Table[], suggestions: Suggestion[]) {
   });
 }
 
-function checkForeignKeyIndexes(schema: Table[], suggestions: Suggestion[]) {
+function checkForeignKeyIndexes(
+  schema: Table[],
+  suggestions: SchemaSuggestion[]
+) {
   schema.forEach((table) => {
     table.columns.forEach((col) => {
       if (col.foreignKey && !col.name.toLowerCase().endsWith("_id")) {
@@ -113,7 +119,10 @@ function checkForeignKeyIndexes(schema: Table[], suggestions: Suggestion[]) {
   });
 }
 
-function checkCircularDependencies(schema: Table[], suggestions: Suggestion[]) {
+function checkCircularDependencies(
+  schema: Table[],
+  suggestions: SchemaSuggestion[]
+) {
   const checkCircularDependenciesRecursive = (
     startTable: string,
     currentTable: string,
@@ -152,7 +161,7 @@ function checkCircularDependencies(schema: Table[], suggestions: Suggestion[]) {
   });
 }
 
-function checkGoodPractices(schema: Table[], suggestions: Suggestion[]) {
+function checkGoodPractices(schema: Table[], suggestions: SchemaSuggestion[]) {
   if (
     schema.every((table) =>
       table.columns.some((col) => col.name.toLowerCase() === "id")
@@ -186,7 +195,10 @@ function checkGoodPractices(schema: Table[], suggestions: Suggestion[]) {
   }
 }
 
-function checkDataTypeConsistency(schema: Table[], suggestions: Suggestion[]) {
+function checkDataTypeConsistency(
+  schema: Table[],
+  suggestions: SchemaSuggestion[]
+) {
   const dataTypes: { [key: string]: Set<string> } = {};
   schema.forEach((table) => {
     table.columns.forEach((col) => {

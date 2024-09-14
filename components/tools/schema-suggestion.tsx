@@ -22,7 +22,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import type { Suggestion, Table } from "@/lib/types";
+import type { SchemaSuggestion, Table } from "@/lib/types";
 import { analyzeSchemaSuggestions } from "@/lib/tools-utils/schema-suggestion";
 
 export default function SchemaSuggestions({ schema }: { schema: Table[] }) {
@@ -63,7 +63,7 @@ function SuggestionItem({
   isOpen,
   onToggle,
 }: {
-  suggestion: Suggestion;
+  suggestion: SchemaSuggestion;
   isOpen: boolean;
   onToggle: () => void;
 }) {
