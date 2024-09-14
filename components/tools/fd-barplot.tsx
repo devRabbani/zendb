@@ -65,10 +65,10 @@ export default function FDBarPlot({ schema }: { schema: TableConstraint[] }) {
     return Object.values(tabeleDtaa);
   };
 
-  const chartData2 = generateNewGraph();
+  const chartData = generateNewGraph();
 
   return (
-    <Card>
+    <Card className="min-h-[500px]">
       <CardHeader>
         <CardTitle>Intra vs Inter table dependencies</CardTitle>
         <CardDescription>
@@ -78,32 +78,38 @@ export default function FDBarPlot({ schema }: { schema: TableConstraint[] }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart data={chartData2}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="name"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 20)}
-            />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey="intra"
-              stackId="a"
-              fill="var(--color-intra)"
-              radius={[0, 0, 4, 4]}
-            />
-            <Bar
-              dataKey="inter"
-              stackId="a"
-              fill="var(--color-inter)"
-              radius={[4, 4, 0, 0]}
-            />
-          </BarChart>
-        </ChartContainer>
+        {chartData.length ? (
+          <ChartContainer config={chartConfig}>
+            <BarChart data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 20)}
+              />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar
+                dataKey="intra"
+                stackId="a"
+                fill="var(--color-intra)"
+                radius={[0, 0, 4, 4]}
+              />
+              <Bar
+                dataKey="inter"
+                stackId="a"
+                fill="var(--color-inter)"
+                radius={[4, 4, 0, 0]}
+              />
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          <p className="text-sm text-muted-foreground font-medium text-center mt-[10vh]">
+            No Data to show
+          </p>
+        )}
       </CardContent>
     </Card>
   );

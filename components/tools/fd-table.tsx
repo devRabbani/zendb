@@ -12,6 +12,8 @@ import {
 
 export default function FDTable({ schema }: { schema: TableConstraint[] }) {
   const dependencies = getFunctionalDependencies(schema);
+
+  if (!dependencies?.length) return;
   return (
     <ScrollArea className="h-[500px] w-full rounded-md border p-4">
       <Table>

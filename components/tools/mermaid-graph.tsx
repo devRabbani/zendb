@@ -13,7 +13,13 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { toast } from "sonner";
 import { downloadSVG } from "@/lib/tools-utils";
 
-export default function MermaidGraph({ chart }: { chart: string }) {
+export default function MermaidGraph({
+  chart,
+  title = "Diagram",
+}: {
+  chart: string;
+  title?: string;
+}) {
   const [svg, setSvg] = useState<string>("");
   const [graphId, setGraphId] = useState("mermaid-graph");
 
@@ -59,7 +65,7 @@ export default function MermaidGraph({ chart }: { chart: string }) {
   return (
     <div className="rounded-xl border border-border overflow-hidden bg-card text-card-foreground shadow">
       <div className="px-6 border-b border-border py-2.5 dark:bg-muted/50 flex justify-between items-center">
-        <h4>Diagram</h4>
+        <h4>{title}</h4>
         <Button
           variant="ghost"
           onClick={handleDownload}
