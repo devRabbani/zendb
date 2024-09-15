@@ -1,49 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2 } from "lucide-react";
-import { Parser, AST } from "node-sql-parser";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-} from "recharts";
+import type { AST } from "node-sql-parser";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import CodeEditor from "./code-editor";
 import QueryEditor from "./query-editor";
 import { toast } from "sonner";
-import {
-  analyzeComplexity,
-  getComplexityLevel,
-} from "@/lib/tools-utils/analyze-query";
+import { analyzeComplexity } from "@/lib/tools-utils/analyze-query";
 import { ComplexityAnalysis } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import QueryComplexityReport from "./query-complexity-report";
@@ -73,7 +37,11 @@ export default function QueryComplexityEstimator() {
 
   return (
     <>
-      <QueryEditor callbackFn={handleAnalyze} btnName="Estimate Complexity" />
+      <QueryEditor
+        callbackFn={handleAnalyze}
+        onlyQuery={false}
+        btnName="Estimate Complexity"
+      />
       {analysisResult && (
         <Tabs defaultValue="analysis">
           <TabsList className="">

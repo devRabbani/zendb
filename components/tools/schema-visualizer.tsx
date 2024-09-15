@@ -1,14 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SchemaSuggestions from "./schema-suggestion";
-import CodeEditor from "./code-editor";
-import CardWrapper from "../card-wrapper";
-import { Label } from "../ui/label";
-import SchemaHelperPopup from "./schema-helper-popup";
 import SchemaComplexity from "./schema-complexity";
 import TableStatistics from "./table-statistics";
 import SchemaImpactAnalysis from "./schema-impact-analysis";

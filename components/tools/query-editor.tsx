@@ -7,13 +7,19 @@ import CodeEditor from "./code-editor";
 import { type AST, Parser } from "node-sql-parser";
 import { SAMPLE_QUERIES } from "@/lib/constants";
 
-export default function QueryEditor({
+type CallbackInput<T extends boolean> = T extends true ? string : AST | AST[];
+
+interface QueryEditorProps<T extends boolean> {
+  btnName: string;
+  callbackFn: (value: CallbackInput<T>) => void;
+  onlyQuery: T;
+}
+
+export default function QueryEditor<T extends boolean>({
   btnName,
   callbackFn,
-}: {
-  btnName: string;
-  callbackFn: (value: AST | AST[]) => void;
-}) {
+  onlyQuery,
+}: QueryEditorProps<T>) {
   const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +31,13 @@ export default function QueryEditor({
   const handleVisualize = () => {
     setIsLoading(true);
     try {
-      const parse = new Parser();
-      const ast = parse.astify(query);
-      callbackFn(ast);
+      if (onlyQuery) {
+        (callbackFn as (value: string) => void)(query);
+      } else {
+        const parse = new Parser();
+        const ast = parse.astify(query);
+        (callbackFn as (value: AST | AST[]) => void)(ast);
+      }
       setError(null);
     } catch (err: any) {
       setError("Failed to parse SQL query. Please check your syntax.");

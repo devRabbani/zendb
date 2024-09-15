@@ -1,6 +1,5 @@
 import ToolpageHeader from "@/components/toolpage-header";
 import QueryComplexityEstimator from "@/components/tools/query-estimator";
-
 export default function QueryEstimator() {
   return (
     <>
