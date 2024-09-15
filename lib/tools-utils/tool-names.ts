@@ -23,6 +23,18 @@ const toolNames = [
     activeIcon: PiRulerFill, // Active icon
   },
   {
+    name: "Schema Visualizer",
+    path: "/schema-visualizer",
+    icon: PiDatabaseDuotone,
+    activeIcon: PiDatabaseFill,
+  },
+  {
+    name: "Normalization",
+    path: "/normalization",
+    icon: PiSlidersDuotone,
+    activeIcon: PiSlidersFill,
+  },
+  {
     name: "Type Optimizer",
     path: "/type-optimizer",
     icon: PiListDuotone,
@@ -35,12 +47,6 @@ const toolNames = [
     activeIcon: PiMagnifyingGlassFill,
   },
   {
-    name: "Normalization",
-    path: "/normalization",
-    icon: PiSlidersDuotone,
-    activeIcon: PiSlidersFill,
-  },
-  {
     name: "Query Estimator",
     path: "/query-estimator",
     icon: PiGraphDuotone,
@@ -51,12 +57,6 @@ const toolNames = [
     path: "/erd-generator",
     icon: PiFlowArrowDuotone,
     activeIcon: PiFlowArrowFill,
-  },
-  {
-    name: "Schema Visualizer",
-    path: "/schema-visualizer",
-    icon: PiDatabaseDuotone,
-    activeIcon: PiDatabaseFill,
   },
 ];
 

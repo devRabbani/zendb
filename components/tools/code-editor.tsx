@@ -16,13 +16,17 @@ export default function CodeEditor({
   value: string;
   onValueChange: (value: string) => void;
   placeholder?: string;
-  height?: "sm" | "default";
+  height?: "sm" | "xs" | "default";
 }) {
   return (
     <ScrollArea
       className={cn(
         "rounded-md border border-border outline-none focus-within:border-transparent focus-within:ring-1 focus-within:ring-ring w-full",
-        height === "sm" ? "h-[200px]" : "h-[38vh]"
+        {
+          "h-[38vh]": height === "default",
+          "h-[200px]": height === "sm",
+          "h-[80px]": height === "xs",
+        }
       )}
     >
       <Editor

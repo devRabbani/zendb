@@ -85,3 +85,9 @@ export type ComplexityAnalysis = {
   factors: ComplexityFactor[];
   totalScore: number;
 };
+
+export type TypeAnalysisResult = {
+  suggestedType: string;
+  alternatives?: string[];
+  description?: string;
+};

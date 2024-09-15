@@ -101,3 +101,13 @@ WHERE r.user_rank <= 10
 ORDER BY r.user_rank`,
   },
 ];
+
+export const COMMON_TYPES = [
+  { label: "Email", placeholder: "example@email.com" },
+  { label: "Website", placeholder: "https://www.example.com" },
+  { label: "Date", placeholder: "2023-05-15" },
+  { label: "Time", placeholder: "14:30:00" },
+  { label: "Number", placeholder: "42" },
+  { label: "Boolean", placeholder: "1" },
+  { label: "JSON", placeholder: '{"key": "value"}' },
+];
