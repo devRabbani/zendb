@@ -4,7 +4,6 @@ import { Label } from "../ui/label";
 import CodeEditor from "./code-editor";
 import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { toast } from "sonner";
 import { COMMON_TYPES } from "@/lib/constants";
 import { Badge } from "../ui/badge";
 import { TypeAnalysisResult } from "@/lib/types";

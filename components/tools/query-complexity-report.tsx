@@ -9,26 +9,14 @@ import {
   TableRow,
 } from "../ui/table";
 import { getComplexityLevel } from "@/lib/tools-utils/analyze-query";
-import { Badge } from "../ui/badge";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
-import {
-  Label,
-  LabelList,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
-  RadialBar,
-  RadialBarChart,
-} from "recharts";
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 
 const chartConfig = {
   score: {
