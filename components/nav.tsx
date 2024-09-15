@@ -15,6 +15,8 @@ import {
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import toolNames from "@/lib/tools-utils/tool-names";
+import Image from "next/image";
+import Logo from "./logo";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -44,7 +46,8 @@ export default function Nav() {
   return (
     <nav>
       <div className="flex items-center gap-3.5 py-3">
-        <Link href="/" className="text-xl font-light ">
+        <Link href="/" className="text-xl font-light flex items-center ">
+          <Logo />
           ZenDB
         </Link>
         <ModeToggle />

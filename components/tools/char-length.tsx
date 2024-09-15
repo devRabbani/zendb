@@ -75,6 +75,7 @@ export default function CharLength() {
             onChange={handleInputChange}
             value={charLength.toString()}
             min="0"
+            autoFocus
             max="65000"
             placeholder="Enter a number"
             className="text-lg"

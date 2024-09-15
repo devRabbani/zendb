@@ -21,7 +21,7 @@ export default function CodeEditor({
   return (
     <ScrollArea
       className={cn(
-        "rounded-md border border-border outline-none focus-within:border-transparent focus-within:ring-1 focus-within:ring-ring w-full",
+        "rounded-md border border-border outline-none focus-within:border-transparent focus-within:ring-1 shadow focus-within:ring-ring w-full",
         {
           "h-[38vh]": height === "default",
           "h-[200px]": height === "sm",
@@ -39,6 +39,7 @@ export default function CodeEditor({
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 14,
         }}
+        autoFocus
         placeholder={placeholder}
         className={cn(
           "schema-editor w-full ",

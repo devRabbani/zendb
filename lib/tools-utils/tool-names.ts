@@ -18,7 +18,7 @@ import {
 const toolNames = [
   {
     name: "Char Length",
-    path: "/",
+    path: "/char-length",
     icon: PiRulerDuotone, // Normal icon
     activeIcon: PiRulerFill, // Active icon
   },
