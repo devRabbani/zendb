@@ -4,22 +4,43 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import CodeEditor from "./code-editor";
-import SchemaHelperPopup from "./schema-helper-popup";
+import { type AST, Parser } from "node-sql-parser";
+import { SAMPLE_QUERIES } from "@/lib/constants";
 
-export default function QueryEditor() {
+export default function QueryEditor({
+  btnName,
+  callbackFn,
+}: {
+  btnName: string;
+  callbackFn: (value: AST | AST[]) => void;
+}) {
   const [query, setQuery] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onValueChange = useCallback((value: string) => {
     setQuery(value);
   }, []);
+
+  const handleVisualize = () => {
+    setIsLoading(true);
+    try {
+      const parse = new Parser();
+      const ast = parse.astify(query);
+      callbackFn(ast);
+      setError(null);
+    } catch (err: any) {
+      setError("Failed to parse SQL query. Please check your syntax.");
+      console.log("Parsing Error", err?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <CardWrapper>
       <div className="space-y-2.5">
-        <div className="flex justify-between item-center">
-          <Label htmlFor="code-editor">Paste your DB Schema here</Label>
-          <SchemaHelperPopup />
-        </div>
+        <Label htmlFor="code-editor">Paste your SQL query here</Label>
         <CodeEditor
           value={query}
           onValueChange={onValueChange}
@@ -27,12 +48,28 @@ export default function QueryEditor() {
           height="sm"
         />
         <p className="text-[0.8rem] text-muted-foreground">
-          Enter your database schema to visualize and analyze. Click help button
-          for sample schema and structure.
+          Enter a SQL query to visualize and analyze or choose a sample query:
         </p>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {SAMPLE_QUERIES.map((sample, index) => (
+            <Button
+              key={index}
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setQuery(sample.query)}
+            >
+              {sample.name}
+            </Button>
+          ))}
+        </div>
       </div>
-      <Button disabled={isLoading} onClick={handleVisualize} className="mt-6">
-        Visualize and Analyze
+      <Button
+        disabled={isLoading || query.length < 20}
+        onClick={handleVisualize}
+        className="mt-6"
+      >
+        {btnName}
       </Button>
       {error && (
         <Alert variant="destructive" className="mt-6">

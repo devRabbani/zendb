@@ -74,3 +74,14 @@ export type FunctionalDependency = {
   confidence: number;
   type: "intra-table" | "inter-table";
 };
+
+export type ComplexityFactor = {
+  name: string;
+  score: number;
+  explanation: string;
+};
+
+export type ComplexityAnalysis = {
+  factors: ComplexityFactor[];
+  totalScore: number;
+};

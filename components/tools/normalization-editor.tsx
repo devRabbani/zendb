@@ -32,6 +32,7 @@ export default function NormalizationEditor({
       setError(
         "Failed to parse table structure. Please check your input format."
       );
+      saveTable([]);
     } finally {
       setIsAnalyzing(false);
     }

@@ -75,3 +75,29 @@ export const COMPLEXITY_LABELS_SHORT = [
   "Max FK/Table",
   "Normalized",
 ];
+
+export const SAMPLE_QUERIES = [
+  {
+    name: "Simple SELECT",
+    query: "SELECT * FROM users WHERE age > 18",
+  },
+  {
+    name: "JOIN with GROUP BY",
+    query:
+      "SELECT u.name, COUNT(o.id) as order_count FROM users u JOIN orders o ON u.id = o.user_id GROUP BY u.id",
+  },
+  {
+    name: "Complex Query",
+    query: `WITH ranked_orders AS (
+  SELECT user_id, COUNT(*) as order_count,
+  RANK() OVER (ORDER BY COUNT(*) DESC) as user_rank
+  FROM orders
+  GROUP BY user_id
+)
+SELECT u.name, r.order_count, r.user_rank
+FROM users u
+JOIN ranked_orders r ON u.id = r.user_id
+WHERE r.user_rank <= 10
+ORDER BY r.user_rank`,
+  },
+];

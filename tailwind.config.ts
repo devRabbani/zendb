@@ -58,6 +58,12 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        state: {
+          low: "hsl(var(--color-low))",
+          moderate: "hsl(var(--color-moderate))",
+          high: "hsl(var(--color-high))",
+          "very-high": "hsl(var(--color-very-high))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
