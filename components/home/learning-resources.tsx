@@ -63,7 +63,7 @@ export default function LearningResources() {
         Learning Resources
       </h2>
       <ScrollArea className="">
-        <div className="flex gap-5 w-max pb-5 pl-1.5 pt-1.5 pr-2">
+        <div className="flex gap-5 w-max pb-5 pl-1.5 pt-1.5  pr-3">
           {dbArticles.slice(0, 6).map((article, index) => (
             <Card
               key={index}

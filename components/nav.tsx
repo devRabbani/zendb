@@ -44,28 +44,30 @@ export default function Nav() {
   );
 
   return (
-    <nav>
-      <div className="flex items-center gap-3.5 py-3">
-        <Link href="/" className="text-xl font-light flex items-center ">
-          <Logo />
-          ZenDB
-        </Link>
-        <ModeToggle />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="">
-              <MenuIcon className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-52 pb-2">
-            <DropdownMenuLabel>All Tools</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <NavItems />
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <nav className="bg-background sticky top-0 z-50">
+      <div className="container">
+        <div className="flex items-center gap-3.5 py-3">
+          <Link href="/" className="text-xl font-light flex items-center ">
+            <Logo />
+            ZenDB
+          </Link>
+          <ModeToggle />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="">
+                <MenuIcon className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52 pb-2">
+              <DropdownMenuLabel>All Tools</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <NavItems />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <Separator />
       </div>
-      <Separator />
     </nav>
   );
 }

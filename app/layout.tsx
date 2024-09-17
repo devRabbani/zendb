@@ -26,9 +26,9 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <main className="container min-h-screen flex flex-col">
+          <main className="min-h-screen flex flex-col">
             <Nav />
-            <div className="mt-5 pb-10 space-y-6">{children}</div>
+            <div className="mt-5 pb-10 space-y-5 container">{children}</div>
             <footer className="border-t mt-auto">
               <div className="container mx-auto py-4 text-center text-sm text-gray-600">
                 © {new Date().getFullYear()} ZenDB. Created by{" "}

@@ -1,14 +1,14 @@
-import ToolpageHeader from "@/components/toolpage-header";
 import IndexAnalyzer from "@/components/tools/index-analyzer";
+import ToolsLayout from "@/components/tools/tools-layout";
 
 export default function IndexAnalyzerPage() {
   return (
-    <div className="">
-      <ToolpageHeader
-        header="Analyze Index Efficiency"
-        para="Evaluate and improve the performance of your database indexes. This tool helps you discover bottlenecks and suggests ways to streamline your indexing strategy."
-      />
+    <ToolsLayout
+      pageName="Index Analyzer"
+      header="Analyze Index Efficiency"
+      para="Evaluate and improve the performance of your database indexes. This tool helps you discover bottlenecks and suggests ways to streamline your indexing strategy."
+    >
       <IndexAnalyzer />
-    </div>
+    </ToolsLayout>
   );
 }

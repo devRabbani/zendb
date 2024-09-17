@@ -1,8 +1,13 @@
-import toolNames from "@/lib/tools-utils/tool-names";
-import { Button, buttonVariants } from "../ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import Link from "next/link";
-import ArticlesCard from "./article-card";
+import BreadcrumbHelper from "@/components/breadcrumb-helper";
+import ArticlesCard from "@/components/home/article-card";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const dbArticles = [
   {
@@ -57,27 +62,18 @@ const dbArticles = [
   },
 ];
 
-export default function LatestArticles() {
+export default function ArticlesPage() {
   return (
-    <div className="">
-      <h2 className="font-semibold mb-4 text-lg border-b pb-1.5">
+    <section>
+      <BreadcrumbHelper pageName="Articles" />
+      <h2 className="mt-6 font-semibold mb-4 text-lg border-b pb-1.5">
         Latest Articles about DB
       </h2>
       <div className="grid gap-3 md:grid-cols-1">
-        {dbArticles.slice(0, 6).map((article, index) => (
+        {dbArticles.map((article, index) => (
           <ArticlesCard key={index} article={article} />
         ))}
       </div>
-
-      <Link
-        className={buttonVariants({
-          variant: "outline",
-          className: "mt-4 mx-auto w-24 text-center !block",
-        })}
-        href="/articles"
-      >
-        See All
-      </Link>
-    </div>
+    </section>
   );
 }

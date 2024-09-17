@@ -11,6 +11,7 @@ import { analyzeComplexity } from "@/lib/tools-utils/analyze-query";
 import { ComplexityAnalysis } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import QueryComplexityReport from "./query-complexity-report";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function QueryComplexityEstimator() {
   const [analysisResult, setAnalysisResult] =
@@ -61,13 +62,15 @@ export default function QueryComplexityEstimator() {
                 <CardTitle>Query Abstract Syntax Tree (AST)</CardTitle>
               </CardHeader>
               <CardContent>
-                <SyntaxHighlighter
-                  language="json"
-                  style={vscDarkPlus}
-                  className="text-sm rounded-md max-h-[500px] overflow-auto"
-                >
-                  {astJson}
-                </SyntaxHighlighter>
+                <ScrollArea className="h-[500px] pr-3 rounded-md">
+                  <SyntaxHighlighter
+                    language="json"
+                    style={vscDarkPlus}
+                    className="text-sm rounded-md h-full"
+                  >
+                    {astJson}
+                  </SyntaxHighlighter>
+                </ScrollArea>
               </CardContent>
             </Card>
           </TabsContent>
