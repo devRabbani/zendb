@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { getComplexityLevel } from "@/lib/tools-utils/analyze-query";
+// import { getComplexityLevel } from "@/lib/tools-utils/analyze-query";
 import {
   ChartConfig,
   ChartContainer,
@@ -24,6 +24,15 @@ const chartConfig = {
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
+
+const getComplexityLevel = (
+  score: number
+): { level: string; color: string } => {
+  if (score <= 5) return { level: "Low", color: "bg-state-low" };
+  if (score <= 10) return { level: "Moderate", color: "bg-state-moderate" };
+  if (score <= 20) return { level: "High", color: "bg-state-high" };
+  return { level: "Very High", color: "bg-state-very-high" };
+};
 
 export default function QueryComplexityReport({
   analysisResult,

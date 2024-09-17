@@ -1,3 +1,4 @@
+import ArticleList from "@/components/articles-page/article-list";
 import BreadcrumbHelper from "@/components/breadcrumb-helper";
 import ArticlesCard from "@/components/home/article-card";
 import {
@@ -8,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { getArticles } from "@/lib/actions";
 
 const dbArticles = [
   {
@@ -62,18 +64,25 @@ const dbArticles = [
   },
 ];
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const articles = await getArticles(0, 10);
+
   return (
     <section>
       <BreadcrumbHelper pageName="Articles" />
       <h2 className="mt-6 font-semibold mb-4 text-lg border-b pb-1.5">
         Latest Articles about DB
       </h2>
-      <div className="grid gap-3 md:grid-cols-1">
-        {dbArticles.map((article, index) => (
-          <ArticlesCard key={index} article={article} />
-        ))}
-      </div>
+      {articles.articles.length ? (
+        <ArticleList
+          initialArticles={articles.articles}
+          initialNextItems={articles.nextItems}
+        />
+      ) : (
+        <p className="text-sm font-medium text-muted-foreground/80">
+          No articles found, Try Again after some time
+        </p>
+      )}
     </section>
   );
 }

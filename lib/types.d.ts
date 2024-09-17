@@ -91,3 +91,11 @@ export type TypeAnalysisResult = {
   alternatives?: string[];
   description?: string;
 };
+
+export type Article = {
+  title: string;
+  id: string;
+  link: string;
+  published: number;
+  content: string;
+};

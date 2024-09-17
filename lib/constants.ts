@@ -111,3 +111,10 @@ export const COMMON_TYPES = [
   { label: "Boolean", placeholder: "1" },
   { label: "JSON", placeholder: '{"key": "value"}' },
 ];
+
+export const RSS_FEEDS = [
+  "https://dev.to/feed/tag/database",
+  "https://medium.com/feed/tag/database",
+  "https://www.sqlshack.com/feed/",
+  "https://hashnode.com/n/databases/rss",
+];

@@ -21,9 +21,9 @@ const dbTips = [
 ];
 
 export default function TipsSection() {
-  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
   return (
-    <section className="">
+    <section className="bg-secondary rounded-md dark:bg-transparent">
       <Carousel
         opts={{
           loop: true,
@@ -37,13 +37,13 @@ export default function TipsSection() {
           {dbTips.map((tip, index) => (
             <CarouselItem key={index}>
               <div className="p-3 h-full">
-                <Card className="h-full">
+                <div className="h-full">
                   <CardContent className="flex h-full items-center justify-center p-6">
                     <span className="text-xl text-center font-semibold">
                       {tip}
                     </span>
                   </CardContent>
-                </Card>
+                </div>
               </div>
             </CarouselItem>
           ))}
