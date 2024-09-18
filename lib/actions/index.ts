@@ -73,7 +73,14 @@ const parseRSSFeeds = async () => {
 const CACHE_DURATION = 60 * 60 * 8; // 8 hours
 
 export const getArticles = unstable_cache(
-  async (currentItems: number = 0, pageSize: number = 10) => {
+  async (
+    currentItems: number = 0,
+    pageSize: number = 10
+  ): Promise<{
+    articles: Article[];
+    nextItems: number | null;
+    error?: string;
+  }> => {
     try {
       const parsedArticles = await parseRSSFeeds();
       const hasNextPage = currentItems + pageSize < parsedArticles.length;
@@ -103,7 +110,7 @@ const octokit = new Octokit({
 });
 
 export const getTips = unstable_cache(
-  async () => {
+  async (): Promise<string[]> => {
     try {
       const { data } = await octokit.repos.getContent({
         owner: "devRabbani",

@@ -46,9 +46,8 @@ export default function ArticleList({
     }
   }, [inView, isLoading, nextItems]);
 
-  console.log(articles.length, "length");
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {articles.map((article) => (
         <ArticlesCard key={article.id} article={article} />
       ))}
