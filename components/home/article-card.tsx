@@ -12,11 +12,8 @@ export default function ArticlesCard({ article }: { article: Article }) {
   return (
     <Card className="hover:shadow-md transition-all duration-300">
       <CardHeader className="pb-2 space-y-1.5">
-        <CardDescription>
-          <p className="text-[0.8rem] leading-snug">
-            {" "}
-            {moment(article.published).format("MMM Do YYYY")}
-          </p>
+        <CardDescription className="text-[0.8rem] leading-snug">
+          {moment(article.published).format("MMM Do YYYY")}
         </CardDescription>
         <CardTitle>
           <a

@@ -118,3 +118,11 @@ export const RSS_FEEDS = [
   "https://www.sqlshack.com/feed/",
   "https://hashnode.com/n/databases/rss",
 ];
+
+export const BACKUP_TIPS = [
+  "Always backup your database before making major changes.",
+  "Use indexes to improve query performance on frequently accessed columns.",
+  "Normalize your database to reduce data redundancy and improve data integrity.",
+  "Regularly update your database software to ensure security and performance.",
+  "Use prepared statements to prevent SQL injection attacks.",
+];

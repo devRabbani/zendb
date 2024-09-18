@@ -6,6 +6,7 @@ import { franc } from "franc-min";
 import { Article } from "../types";
 import { unstable_cache } from "next/cache";
 import { createHash } from "crypto";
+import { Octokit } from "@octokit/rest";
 
 const parser = new Parser();
 
@@ -69,7 +70,7 @@ const parseRSSFeeds = async () => {
   );
 };
 
-const CACHE_DURATION = 60 * 60 * 24; // 24 hours
+const CACHE_DURATION = 60 * 60 * 8; // 8 hours
 
 export const getArticles = unstable_cache(
   async (currentItems: number = 0, pageSize: number = 10) => {
@@ -94,5 +95,42 @@ export const getArticles = unstable_cache(
   {
     revalidate: CACHE_DURATION,
     tags: ["articles"],
+  }
+);
+
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
+
+export const getTips = unstable_cache(
+  async () => {
+    try {
+      const { data } = await octokit.repos.getContent({
+        owner: "devRabbani",
+        repo: "db-tips",
+        path: "tips.md",
+      });
+
+      if ("content" in data) {
+        const content = Buffer.from(data.content, "base64").toString("utf-8");
+        const lines = content.split("\n");
+        const tips = lines
+          .filter((line) => line.trim().startsWith("-"))
+          .map((line) => line.trim().replace("- ", ""));
+
+        const uniqueTips = Array.from(new Set(tips));
+        const latestTips = uniqueTips.slice(-20);
+        return latestTips;
+      }
+      return [];
+    } catch (error) {
+      console.error("Error fetching tips:", error);
+      return [];
+    }
+  },
+  ["tips"],
+  {
+    revalidate: CACHE_DURATION,
+    tags: ["tips"],
   }
 );
