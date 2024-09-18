@@ -10,7 +10,7 @@ export default function LatestArticles() {
   return (
     <div className="space-y-4">
       <h2 className="font-semibold text-lg border-b pb-1.5">
-        Latest Articles about DB
+        Latest Articles on DB
       </h2>
       <Suspense fallback={<ArticlesLoading />}>
         <LatestArticlesList />

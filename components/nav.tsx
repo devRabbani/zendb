@@ -15,7 +15,6 @@ import {
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import toolNames from "@/lib/tools-utils/tool-names";
-import Image from "next/image";
 import Logo from "./logo";
 
 export default function Nav() {

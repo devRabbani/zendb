@@ -126,3 +126,78 @@ export const BACKUP_TIPS = [
   "Regularly update your database software to ensure security and performance.",
   "Use prepared statements to prevent SQL injection attacks.",
 ];
+
+export const RESOURCES = [
+  {
+    tags: ["articles"],
+    title: "11 Database Optimization Techniques",
+    short_description:
+      "Database often becomes the bottleneck in software performance. Having an optimized database is essential for high-performing systems. Here are 11 effective database optimization techniques.",
+    link: "https://danielfoo.medium.com/11-database-optimization-techniques-97fdbed1b627",
+  },
+  {
+    tags: ["course", "free"],
+    title: "PlanetScale - MySQL for Developers",
+    short_description:
+      "An in-depth course teaching the fundamentals of MySQL, specifically tailored for developers looking to optimize their database usage. Best optimization course for MySQL database.",
+    link: "https://planetscale.com/learn/courses/mysql-for-developers",
+  },
+  {
+    tags: ["youtube", "free"],
+    title: "Fireship YouTube Channel",
+    short_description:
+      "If you love NoSQL databases, especially Firebase, then Fireship is the best YouTube channel for you. It also covers other databases and frontend topics in concise, educational videos.",
+    link: "https://www.youtube.com/@Fireship",
+  },
+  {
+    tags: ["course", "free"],
+    title: "Stanford Online - Relational Databases and SQL",
+    short_description:
+      "A Stanford course offering in-depth knowledge of relational databases and SQL, exploring database structure, querying, and optimization techniques.",
+    link: "https://online.stanford.edu/courses/soe-ydatabases0005-databases-relational-databases-and-sql",
+  },
+
+  {
+    tags: ["course"],
+    title: "Meta Database Engineer Professional Certificate (Coursera)",
+    short_description:
+      "A professional certification from Meta on Coursera focusing on database engineering, SQL, and other optimization techniques.",
+    link: "https://www.coursera.org/professional-certificates/meta-database-engineer",
+  },
+
+  {
+    tags: ["course", "free"],
+    title: "PlanetScale - Database Scaling",
+    short_description:
+      "A course covering database scaling techniques including partitioning, sharding, and load distribution for scalable database systems.",
+    link: "https://planetscale.com/learn/courses/database-scaling/introduction/course-introduction",
+  },
+  {
+    tags: ["docs"],
+    title: "Prisma Documentation - Getting Started",
+    short_description:
+      "Because why not? Prisma is trending and offers excellent documentation on optimization, schema design, relations, and more for Node.js and TypeScript developers.",
+    link: "https://www.prisma.io/docs/getting-started",
+  },
+  {
+    tags: ["youtube", "free"],
+    title: "Joey Blue YouTube Channel",
+    short_description:
+      "Joey Blue's channel provides tutorials and insights into databases, SQL optimization, and related technical topics. The best channel to learn databases.",
+    link: "https://www.youtube.com/@joeyblue1/videos",
+  },
+  {
+    tags: ["articles"],
+    title: "SQLShack - Database Optimization and News",
+    short_description:
+      "SQLShack provides a range of blogs about databases, optimization techniques, and the latest news in the database world.",
+    link: "https://www.sqlshack.com/",
+  },
+  {
+    tags: ["course", "free"],
+    title: "DataCamp - Databases and SQL",
+    short_description:
+      "A comprehensive learning platform offering courses on databases, SQL, and related topics for data enthusiasts.",
+    link: "https://www.datacamp.com/",
+  },
+];
