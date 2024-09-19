@@ -1,5 +1,5 @@
 import type { FunctionalDependency } from "@/lib/types";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -39,6 +39,8 @@ export default function FDTable({
           ))}
         </TableBody>
       </Table>
+      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="vertical" />
     </ScrollArea>
   );
 }

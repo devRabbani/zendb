@@ -80,17 +80,17 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
           )}
         </div>
         {impact && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Impact Analysis</CardTitle>
-              <CardDescription>
-                Analysis for{" "}
-                <strong>
-                  {selectedTable} ({selectedColumn})
-                </strong>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div>
+            <h3 className="font-semibold leading-none tracking-tight">
+              Impact Analysis
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1.5">
+              Analysis for{" "}
+              <strong>
+                {selectedTable} ({selectedColumn})
+              </strong>
+            </p>
+            <div className="py-6">
               <Alert
                 variant={
                   impact.impactLevel === "High"
@@ -136,8 +136,8 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
                   </p>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>

@@ -24,7 +24,6 @@ export const analyzeIndexQueries = (queries: string): IndexAnalysisResult => {
   const groupByColumns: { [key: string]: Set<string> } = {};
   const aliasToTable: { [key: string]: string } = {};
   const astJSON: string[] = [];
-  console.log("queries", queries);
   queries.split(";").forEach((query) => {
     if (!query.trim()) return;
 

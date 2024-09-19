@@ -1,5 +1,11 @@
 import ArticleList from "@/components/articles-page/article-list";
 import { getArticles } from "@/lib/actions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Articles | ZenDB",
+  description: "Articles on Databases",
+};
 
 export default async function ArticlesPage() {
   const results = await getArticles(0, 10);

@@ -80,7 +80,7 @@ function SuggestionItem({
           }
           className="px-2.5 py-3 md:p-4 cursor-pointer transition-colors hover:bg-secondary/60 shadow-sm"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between space-x-1.5">
             <div className="flex items-center space-x-2">
               {suggestion.type === "warning" && (
                 <AlertCircle className="h-4 w-4 flex-shrink-0" />
