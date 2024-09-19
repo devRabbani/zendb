@@ -17,6 +17,7 @@ import {
 } from "../ui/chart";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 import { cn } from "@/lib/utils";
+import { QUERY_LABELS_SHORT } from "@/lib/constants";
 
 const chartConfig = {
   score: {
@@ -66,14 +67,19 @@ export default function QueryComplexityReport({
           <div className="">
             <ChartContainer
               config={chartConfig}
-              className="mx-auto aspect-square max-h-[250px]"
+              className="mx-auto w-full aspect-square sm:max-h-96 md:max-h-[270px]"
             >
               <RadarChart data={analysisResult.factors}>
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent />}
                 />
-                <PolarAngleAxis dataKey="name" />
+                <PolarAngleAxis
+                  dataKey="name"
+                  tickFormatter={(value) =>
+                    QUERY_LABELS_SHORT[value as keyof typeof QUERY_LABELS_SHORT]
+                  }
+                />
                 <PolarGrid />
 
                 <Radar

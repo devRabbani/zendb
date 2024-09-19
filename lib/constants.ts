@@ -201,3 +201,17 @@ export const RESOURCES = [
     link: "https://www.datacamp.com/",
   },
 ];
+
+export const QUERY_LABELS_SHORT = {
+  JOINs: "JOIN",
+  Subqueries: "SUBQRY",
+  Aggregations: "AGGR",
+  DISTINCT: "DIST",
+  "ORDER BY": "ORDER",
+  HAVING: "HAVING",
+  "GROUP BY": "GROUP",
+  "Set Operations": "SET",
+  "Window Functions": "WF",
+  CTEs: "CTE",
+  "WHERE Clause": "WHERE",
+};

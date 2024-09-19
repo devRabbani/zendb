@@ -27,9 +27,9 @@ export default function TypeOptimizer() {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-3">
                 <div className="flex items-start space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 mt-1" />
+                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-green-500 mt-1" />
                   <div className="space-y-1">
                     <h3 className="font-semibold">Suggested Type:</h3>
                     <p className="text-xl font-bold text-primary">
@@ -39,7 +39,7 @@ export default function TypeOptimizer() {
                 </div>
                 {result.alternatives && result.alternatives.length > 0 && (
                   <div className="flex items-start space-x-2">
-                    <Info className="w-5 h-5 text-blue-500 mt-1" />
+                    <Info className="w-5 h-5 flex-shrink-0 text-blue-500 mt-1" />
                     <div className="space-y-1">
                       <h3 className="font-semibold">Alternatives:</h3>
                       <div className="flex flex-wrap gap-2 mt-1">
@@ -56,7 +56,7 @@ export default function TypeOptimizer() {
 
               {result.description && (
                 <div className="flex items-start space-x-2">
-                  <AlertCircle className="w-5 h-5 text-yellow-500 mt-1" />
+                  <AlertCircle className="w-5 h-5 flex-shrink-0 text-yellow-500 mt-1" />
                   <div className="space-y-1">
                     <h3 className="font-semibold">Description:</h3>
                     <p className="text-sm text-muted-foreground">
