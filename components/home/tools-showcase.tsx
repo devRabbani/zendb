@@ -7,7 +7,7 @@ export default function ToolsShowcase() {
   return (
     <div>
       <h3 className="font-semibold mb-4 text-lg border-b pb-1.5">Our tools</h3>
-      <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
         {toolNames.map((tool) => (
           <Link
             href={tool.path}
@@ -23,19 +23,6 @@ export default function ToolsShowcase() {
           </Link>
         ))}
       </section>
-
-      {/* <h2 className="font-semibold mb-4 text-lg border-b pb-1.5">Our tools</h2>
-      <section className="grid grid-cols-3 gap-3">
-        {toolNames.map((tool) => (
-          <Button
-            key={tool.path}
-            variant="outline"
-            className="flex flex-col h-auto py-3.5 gap-2 items-center justify-center"
-          >
-            {<tool.icon className="h-6 w-6" />} {tool.fullname || tool.name}
-          </Button>
-        ))}
-      </section> */}
     </div>
   );
 }

@@ -53,7 +53,9 @@ export default function TableStatistics({ schema }: { schema: Table[] }) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 10)}
+              tickFormatter={(value) =>
+                value.length > 9 ? value.slice(0, 7) + ".." : value
+              }
             />
             <ChartTooltip
               cursor={false}
@@ -64,7 +66,7 @@ export default function TableStatistics({ schema }: { schema: Table[] }) {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="text-sm leading-none text-muted-foreground">
+      <CardFooter className="text-sm md:leading-none text-muted-foreground">
         Summary of table statistics including total columns and foreign keys for
         each table.
       </CardFooter>

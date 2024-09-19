@@ -77,7 +77,7 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
                 </SelectContent>
               </Select>
             </div>
-          )}{" "}
+          )}
         </div>
         {impact && (
           <Card>
@@ -99,17 +99,20 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
                     ? "medium"
                     : "success"
                 }
+                className="[&>svg]:static [&>svg~*]:pl-0 md:[&>svg]:absolute md:[&>svg~*]:pl-7"
               >
                 {impact.impactLevel === "High" && (
-                  <AlertCircle className="h-4 w-4" />
+                  <AlertCircle className="md:h-4 md:w-4" />
                 )}
                 {impact.impactLevel === "Medium" && (
-                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTriangle className="md:h-4 md:w-4" />
                 )}
                 {impact.impactLevel === "Low" && (
-                  <CheckCircle2 className="h-4 w-4" />
+                  <CheckCircle2 className="md:h-4 md:w-4" />
                 )}
-                <AlertTitle>Impact Level: {impact.impactLevel}</AlertTitle>
+                <AlertTitle className="mt-3 md:mt-0">
+                  Impact Level: {impact.impactLevel}
+                </AlertTitle>
                 <AlertDescription>{impact.description}</AlertDescription>
               </Alert>
 
@@ -120,7 +123,7 @@ export default function SchemaImpactAnalysis({ schema }: { schema: Table[] }) {
                     {impact.affectedTables.map((table) => (
                       <Badge
                         variant="secondary"
-                        className="text-sm"
+                        className="md:text-sm"
                         key={table}
                       >
                         {table}

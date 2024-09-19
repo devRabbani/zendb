@@ -78,32 +78,34 @@ function SuggestionItem({
               ? "success"
               : "default"
           }
-          className="py-4 cursor-pointer transition-colors hover:bg-secondary/60 shadow-sm"
+          className="px-2.5 py-3 md:p-4 cursor-pointer transition-colors hover:bg-secondary/60 shadow-sm"
         >
-          <div className="flex item-center justify-between">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               {suggestion.type === "warning" && (
-                <AlertCircle className="h-4 w-4" />
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
               )}
               {suggestion.type === "improvement" && (
-                <AlertTriangle className="h-4 w-4" />
+                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
               )}
               {suggestion.type === "good" && (
-                <CheckCircle2 className="h-4 w-4" />
+                <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
               )}
-              <AlertTitle>{suggestion.message}</AlertTitle>
+              <AlertTitle className="leading-snug mb-0">
+                {suggestion.message}
+              </AlertTitle>
             </div>
             {isOpen ? (
-              <ChevronUp className="h-4 w-4" />
+              <ChevronUp className="h-4 w-4 flex-shrink-0" />
             ) : (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4 flex-shrink-0" />
             )}
           </div>
         </Alert>
       </CollapsibleTrigger>
       <CollapsibleContent className="mt-2">
         <Card className="shadow">
-          <CardContent className="pt-4">
+          <CardContent className="px-3.5 py-4 md:p-6 md:pt-4 ">
             <AlertDescription>{suggestion.details}</AlertDescription>
             <div className="mt-2">
               <Badge
@@ -120,7 +122,7 @@ function SuggestionItem({
             </div>
             <div className="mt-4 space-y-2">
               <h4 className="font-semibold">Affected Tables:</h4>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 {suggestion.affectedTables.map((table) => (
                   <Badge variant="outline" key={table}>
                     {table}

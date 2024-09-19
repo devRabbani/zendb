@@ -1,7 +1,7 @@
 "use client";
 
 import { Table } from "@/lib/types";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
+import { Legend, PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -12,6 +12,8 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -34,19 +36,19 @@ export default function SchemaComplexity({ schema }: { schema: Table[] }) {
       complexity: complexity.tableCount,
     },
     {
-      key: "Avg Column/Table",
+      key: "Avg Col/Table",
       complexity: complexity.avgColumnsPerTable,
     },
     {
-      key: "Total Foreign Keys",
+      key: "Total FK",
       complexity: complexity.totalForeignKeys,
     },
     {
-      key: "Max Foreign Keys/Table",
+      key: "Max FK/Table",
       complexity: complexity.maxForeignKeys,
     },
     {
-      key: "Normalized Complexity",
+      key: "Normalized",
       complexity: complexity.normalizedComplexity,
     },
   ];
@@ -59,8 +61,11 @@ export default function SchemaComplexity({ schema }: { schema: Table[] }) {
           Showing schema complexity based on your schema
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto w-full">
+      <CardContent className="pb-0 p-1 md:p-6 md:pb-0">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto h-72 sm:h-96 md:h-full w-full"
+        >
           <RadarChart data={chartData}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <PolarAngleAxis

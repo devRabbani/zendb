@@ -12,7 +12,9 @@ import Autoplay from "embla-carousel-autoplay";
 import { CardContent } from "../ui/card";
 
 export default function TipsCarousal({ tips }: { tips: string[] }) {
-  const plugin = useRef(Autoplay({ delay: 4000, stopOnMouseEnter: true }));
+  const plugin = useRef(
+    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false })
+  );
 
   return (
     <Carousel

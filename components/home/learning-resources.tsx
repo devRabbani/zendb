@@ -9,7 +9,7 @@ export default function LearningResources() {
       <h2 className="font-semibold mb-4 text-lg border-b pb-1.5">
         Learning Resources
       </h2>
-      <ScrollArea className="">
+      <ScrollArea>
         <div className="flex gap-5 w-max pb-6 pl-1.5 pt-1.5 pr-3">
           {RESOURCES.map((resource, index) => (
             <Card

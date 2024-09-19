@@ -8,6 +8,7 @@ import TableStatistics from "./table-statistics";
 import SchemaImpactAnalysis from "./schema-impact-analysis";
 import type { Table } from "@/lib/types";
 import SchemaVisualizerEditor from "./schema-visualizer-editor";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export default function SchemaVisualizer() {
   const [parsedSchema, setParsedSchema] = useState<Table[]>([]);
@@ -19,22 +20,18 @@ export default function SchemaVisualizer() {
   return (
     <div className="space-y-7">
       <SchemaVisualizerEditor saveParsedSchema={saveParsedSchema} />
+
       {parsedSchema.length > 0 && (
         <Tabs defaultValue="stats">
-          <TabsList className="h-10">
-            <TabsTrigger className="py-1.5" value="stats">
-              Table Statistics
-            </TabsTrigger>
-            <TabsTrigger className="py-1.5" value="complexity">
-              Schema Complexity
-            </TabsTrigger>
-            <TabsTrigger className="py-1.5" value="impact">
-              Impact Analysis
-            </TabsTrigger>
-            <TabsTrigger className="py-1.5" value="suggestions">
-              Suggestions
-            </TabsTrigger>
-          </TabsList>
+          <ScrollArea className="pb-3 min-[576px]:pb-0">
+            <TabsList className="h-10">
+              <TabsTrigger value="stats">Table Statistics</TabsTrigger>
+              <TabsTrigger value="complexity">Schema Complexity</TabsTrigger>
+              <TabsTrigger value="impact">Impact Analysis</TabsTrigger>
+              <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+            </TabsList>
+            <ScrollBar orientation="horizontal" hidden />
+          </ScrollArea>
           <TabsContent value="stats">
             <TableStatistics schema={parsedSchema} />
           </TabsContent>
