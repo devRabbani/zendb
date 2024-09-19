@@ -7,6 +7,7 @@ import CodeEditor from "./code-editor";
 import SchemaHelperPopup from "./schema-helper-popup";
 import { parseSchema } from "@/lib/tools-utils";
 import { Table } from "@/lib/types";
+import { SAMPLE_SCHEMA } from "@/lib/constants";
 
 export default function SchemaVisualizerEditor({
   saveParsedSchema,
@@ -38,12 +39,30 @@ export default function SchemaVisualizerEditor({
   return (
     <CardWrapper>
       <div className="space-y-2.5">
-        <div className="flex justify-between item-center">
+        <div className="flex justify-between items-center">
           <Label htmlFor="code-editor">Paste your DB Schema here</Label>
-          <SchemaHelperPopup />
+          <div className="hidden min-[500px]:block">
+            <SchemaHelperPopup />
+          </div>
         </div>
         <CodeEditor value={schema} onValueChange={onValueChange} />
-        <p className="text-[0.8rem] text-muted-foreground">
+        <div className="min-[500px]:hidden">
+          <p className="text-[0.8rem] text-muted-foreground">
+            Enter your database schema to visualize and analyze or choose a
+            sample schema:
+          </p>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => setSchema(SAMPLE_SCHEMA.simple)}
+          >
+            Sample Schema
+          </Button>
+        </div>
+        <p className="text-[0.8rem] text-muted-foreground hidden min-[500px]:block">
           Enter your database schema to visualize and analyze. Click help button
           for sample schema and structure.
         </p>

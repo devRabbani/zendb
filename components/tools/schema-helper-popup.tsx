@@ -9,7 +9,7 @@ import CopySampleBtn from "./copy-sample.btn";
 export default function SchemaHelperPopup() {
   return (
     <HoverCard openDelay={0}>
-      <HoverCardTrigger className="cursor-pointer">
+      <HoverCardTrigger className="cursor-pointer ">
         <HelpCircleIcon className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
       </HoverCardTrigger>
       <HoverCardContent>
