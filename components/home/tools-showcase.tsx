@@ -7,7 +7,7 @@ export default function ToolsShowcase() {
   return (
     <div>
       <h3 className="font-semibold mb-4 text-lg border-b pb-1.5">Our tools</h3>
-      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
         {toolNames.map((tool) => (
           <Link
             href={tool.path}
@@ -16,7 +16,7 @@ export default function ToolsShowcase() {
               buttonVariants({
                 variant: "secondary",
               }),
-              "bg-card hover:bg-secondary/60 border py-5 sm:py-4 dark:bg-secondary dark:hover:bg-secondary/80"
+              "bg-card hover:bg-secondary/60 border py-[1.15rem] sm:py-4 dark:bg-secondary dark:hover:bg-secondary/80"
             )}
           >
             {<tool.icon className="mr-2 flex-shrink-0" />} {tool.name}
