@@ -1,4 +1,4 @@
-# ZenDB - Your Database Companion 🚀
+# ZenDB - Your Database Companion
 
 ![ZenDB Logo](/public/og-image.png?height=200&width=200)
 
