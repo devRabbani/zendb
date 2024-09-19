@@ -16,7 +16,7 @@ export default function FDTable({
 }) {
   if (!dependencies?.length) return;
   return (
-    <ScrollArea className="h-[500px] w-full rounded-md border p-4">
+    <ScrollArea className="h-[500px] w-full rounded-xl bg-card text-card-foreground shadow border p-4">
       <Table>
         <TableHeader>
           <TableRow>

@@ -22,8 +22,6 @@ export default function LatestArticles() {
 const LatestArticlesList = async () => {
   const results = await getArticles(0, 5);
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
   if (!results.articles.length)
     return (
       <div className="flex flex-col items-center justify-center h-48">

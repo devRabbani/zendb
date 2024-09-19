@@ -14,7 +14,7 @@ export default function LearningResources() {
           {RESOURCES.map((resource, index) => (
             <Card
               key={index}
-              className="hover:shadow-md w-96 transition-all duration-300"
+              className="hover:shadow-md w-72 md:w-96 sm:w-80 transition-all duration-300"
             >
               <CardHeader className="pb-2">
                 <div className="flex gap-3 mb-1">
