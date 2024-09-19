@@ -16,6 +16,8 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import toolNames from "@/lib/tools-utils/tool-names";
 import Logo from "./logo";
+import Image from "next/image";
+import imgss from "@/app/android-chrome-192x192.png";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -46,9 +48,14 @@ export default function Nav() {
     <nav className="bg-background sticky top-0 z-50">
       <div className="container">
         <div className="flex items-center gap-3.5 py-3">
-          <Link href="/" className="text-xl font-light flex items-center ">
-            <Logo />
-            ZenDB
+          <Link
+            href="/"
+            className="text-xl gap-2 font-light flex items-center "
+          >
+            <div className="h-9 w-9 text-2xl grid place-content-center text-background font-semibold rounded-md bg-foreground dark:bg-secondary dark:text-secondary-foreground">
+              Z
+            </div>
+            {/* ZenDB */}
           </Link>
           <ModeToggle />
           <DropdownMenu>
