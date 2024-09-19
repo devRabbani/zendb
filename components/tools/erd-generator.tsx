@@ -18,6 +18,7 @@ import {
 import CopySampleBtn from "./copy-sample.btn";
 import { getERDFromSimple } from "@/lib/tools-utils";
 import generateERDFromPrisma from "@/lib/tools-utils/erd-prisma";
+import { SAMPLE_SCHEMA } from "@/lib/constants";
 
 const HelpContent = ({ type }: { type: SchemaType }) => {
   if (type === "prisma") {
@@ -101,7 +102,7 @@ export default function ERDGenerator() {
                 here
               </Label>
               <HoverCard openDelay={0}>
-                <HoverCardTrigger className="cursor-pointer">
+                <HoverCardTrigger className="hidden min-[500px]:block cursor-pointer">
                   <HelpCircle className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
                 </HoverCardTrigger>
                 <HoverCardContent>
@@ -117,7 +118,23 @@ export default function ERDGenerator() {
                 schemaType === "prisma" ? "Prisma" : "Simple Text"
               } schema here`}
             />
-            <p className="text-[0.8rem] text-muted-foreground">
+            <div className="min-[500px]:hidden">
+              <p className="text-[0.8rem] text-muted-foreground">
+                Before generating, ensure the schema type and structure or
+                choose a sample schema:
+              </p>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-2"
+                onClick={() => setSchema(SAMPLE_SCHEMA[schemaType])}
+              >
+                Sample Schema
+              </Button>
+            </div>
+            <p className="text-[0.8rem] text-muted-foreground hidden min-[500px]:block">
               Before generating, ensure the schema type and structure match your
               selected ERD diagram settings
             </p>

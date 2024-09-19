@@ -39,7 +39,6 @@ export default function CodeEditor({
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 14,
         }}
-        autoFocus
         placeholder={placeholder}
         className={cn(
           "schema-editor w-full ",
