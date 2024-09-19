@@ -58,7 +58,11 @@ export default function Nav() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52 pb-2">
+            <DropdownMenuContent
+              onCloseAutoFocus={(e) => e.preventDefault()}
+              align="end"
+              className="w-52 pb-2"
+            >
               <DropdownMenuLabel>All Tools</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <NavItems />

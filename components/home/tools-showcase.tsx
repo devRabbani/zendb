@@ -19,7 +19,7 @@ export default function ToolsShowcase() {
               "bg-card hover:bg-secondary/60 border dark:bg-secondary dark:hover:bg-secondary/80"
             )}
           >
-            {<tool.icon className="mr-2" />} {tool.name}
+            {<tool.icon className="mr-2 flex-shrink-0" />} {tool.name}
           </Link>
         ))}
       </section>
