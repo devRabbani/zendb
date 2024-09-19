@@ -58,7 +58,7 @@ export default function NormalizationSuggestion({
                       ? "medium"
                       : "default"
                   }
-                  className="space-x-1 pt-4"
+                  className="space-x-1 space-y-3 pt-4 [&>svg]:static [&>svg~*]:pl-0 sm:[&>svg]:absolute sm:[&>svg~*]:pl-7 sm:space-y-0"
                 >
                   {suggestion.severity === "high" && (
                     <AlertCircle className="h-5 w-5" />

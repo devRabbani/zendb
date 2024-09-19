@@ -58,7 +58,7 @@ export default function FDBarPlot({
   }, [dependencies]);
 
   return (
-    <Card className="min-h-[500px]">
+    <Card className="md:min-h-[500px]">
       <CardHeader>
         <CardTitle>Intra vs Inter table dependencies</CardTitle>
         <CardDescription>
@@ -77,7 +77,9 @@ export default function FDBarPlot({
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 20)}
+                tickFormatter={(value) =>
+                  value.length > 9 ? value.slice(0, 7) + ".." : value
+                }
               />
               <ChartTooltip content={<ChartTooltipContent hideLabel />} />
               <ChartLegend content={<ChartLegendContent />} />
