@@ -5,6 +5,7 @@ import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -97,6 +98,7 @@ export default function RootLayout({
           <NextTopLoader color="#6225C5" zIndex={999} />
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_MEASUREMENT_ID!} />
     </html>
   );
 }

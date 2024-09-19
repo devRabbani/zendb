@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@loancrate/prisma-schema-parser": "^2.0.0",
+    "@next/third-parties": "^14.2.12",
     "@octokit/rest": "^21.0.2",
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
