@@ -67,7 +67,11 @@ export default function SchemaVisualizerEditor({
           for sample schema and structure.
         </p>
       </div>
-      <Button disabled={isLoading} onClick={handleVisualize} className="mt-6">
+      <Button
+        disabled={isLoading || schema?.length < 15}
+        onClick={handleVisualize}
+        className="mt-6"
+      >
         Visualize and Analyze
       </Button>
       {error && (
