@@ -86,7 +86,7 @@ export default function RootLayout({
               <div className="container mx-auto py-4 text-center text-sm text-gray-600">
                 © {new Date().getFullYear()} ZenDB. Created by{" "}
                 <a
-                  href="https://rabbani.updash.in"
+                  href="https://github.com/devRabbani"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline font-medium"
