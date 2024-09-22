@@ -37,7 +37,7 @@ To get started with ZenDB, follow these steps:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/zendb.git
+   git clone https://github.com/devrabbani/zendb.git
    ```
 
 2. Navigate to the project directory:
