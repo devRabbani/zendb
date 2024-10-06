@@ -7,8 +7,22 @@ import { Article } from "../types";
 import { unstable_cache } from "next/cache";
 import { createHash } from "crypto";
 import { Octokit } from "@octokit/rest";
+import { headers } from "next/headers";
 
 const parser = new Parser();
+
+const getIp = () => {
+  const forwardedFor = headers().get("x-forwarded-for");
+  const realIp = headers().get("x-real-ip");
+
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  if (realIp) return realIp.trim();
+
+  return "0.0.0.0";
+};
 
 const detectEnglish = (text: string) => {
   const detect = franc(text, { minLength: 1 });
