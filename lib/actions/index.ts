@@ -86,72 +86,80 @@ const parseRSSFeeds = async () => {
 
 const CACHE_DURATION = 60 * 60 * 8; // 8 hours
 
-export const getArticles = unstable_cache(
-  async (
-    currentItems: number = 0,
-    pageSize: number = 10
-  ): Promise<{
-    articles: Article[];
-    nextItems: number | null;
-    error?: string;
-  }> => {
-    try {
-      const parsedArticles = await parseRSSFeeds();
-      const hasNextPage = currentItems + pageSize < parsedArticles.length;
+export const getArticles = async (
+  currentItems: number = 0,
+  pageSize: number = 10
+): Promise<{
+  articles: Article[];
+  nextItems: number | null;
+  error?: string;
+}> => {
+  const ip = getIp();
 
-      return {
-        articles: parsedArticles.slice(currentItems, currentItems + pageSize),
-        nextItems: hasNextPage ? currentItems + pageSize : null,
-      };
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      return {
-        articles: [],
-        nextItems: null,
-        error: "Failed to fetch articles. Please try again later.",
-      };
+  return await unstable_cache(
+    async () => {
+      try {
+        const parsedArticles = await parseRSSFeeds();
+        const hasNextPage = currentItems + pageSize < parsedArticles.length;
+
+        return {
+          articles: parsedArticles.slice(currentItems, currentItems + pageSize),
+          nextItems: hasNextPage ? currentItems + pageSize : null,
+        };
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        return {
+          articles: [],
+          nextItems: null,
+          error: "Failed to fetch articles. Please try again later.",
+        };
+      }
+    },
+    [`articles-${ip}-${currentItems}-${pageSize}`],
+    {
+      revalidate: CACHE_DURATION,
+      tags: [`articles-${ip}-${currentItems}-${pageSize}`],
     }
-  },
-  ["articles"],
-  {
-    revalidate: CACHE_DURATION,
-    tags: ["articles"],
-  }
-);
+  )();
+};
 
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
-export const getTips = unstable_cache(
-  async (): Promise<string[]> => {
-    try {
-      const { data } = await octokit.repos.getContent({
-        owner: "devRabbani",
-        repo: "db-tips",
-        path: "tips.md",
-      });
+export const getTips = async (): Promise<string[]> => {
+  const ip = getIp();
 
-      if ("content" in data) {
-        const content = Buffer.from(data.content, "base64").toString("utf-8");
-        const lines = content.split("\n");
-        const tips = lines
-          .filter((line) => line.trim().startsWith("-"))
-          .map((line) => line.trim().replace("- ", ""));
+  return await unstable_cache(
+    async () => {
+      try {
+        const { data } = await octokit.repos.getContent({
+          owner: "devRabbani",
+          repo: "db-tips",
+          path: "tips.md",
+        });
 
-        const uniqueTips = Array.from(new Set(tips));
-        const latestTips = uniqueTips.slice(-20);
-        return latestTips;
+        if ("content" in data) {
+          const content = Buffer.from(data.content, "base64").toString("utf-8");
+          const lines = content.split("\n");
+          const tips = lines
+            .filter((line) => line.trim().startsWith("-"))
+            .map((line) => line.trim().replace("- ", ""));
+
+          const uniqueTips = Array.from(new Set(tips));
+          const latestTips = uniqueTips.slice(-20);
+          return latestTips;
+        }
+        return [];
+      } catch (error) {
+        console.error("Error fetching tips:", error);
+        return [];
       }
-      return [];
-    } catch (error) {
-      console.error("Error fetching tips:", error);
-      return [];
+    },
+    [`tips-${ip}`],
+    {
+      revalidate: CACHE_DURATION,
+      tags: [`tips-${ip}`],
     }
-  },
-  ["tips"],
-  {
-    revalidate: CACHE_DURATION,
-    tags: ["tips"],
-  }
-);
+  )();
+};
