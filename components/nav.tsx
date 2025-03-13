@@ -16,10 +16,7 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import toolNames from "@/lib/tools-utils/tool-names";
 
-export default function Nav() {
-  const pathname = usePathname();
-
-  const NavItems = () => (
+const NavItems = () => (
     <div className="grid gap-1">
       {toolNames.map((tool) => {
         const isActive = pathname === tool.path;
@@ -40,6 +37,9 @@ export default function Nav() {
       })}
     </div>
   );
+
+export default function Nav() {
+  const pathname = usePathname();
 
   return (
     <nav className="bg-background sticky top-0 z-50">
