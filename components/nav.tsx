@@ -16,27 +16,27 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import toolNames from "@/lib/tools-utils/tool-names";
 
-const NavItems = () => (
-    <div className="grid gap-1">
-      {toolNames.map((tool) => {
-        const isActive = pathname === tool.path;
-        const Icon = isActive ? tool.activeIcon : tool.icon;
-        return (
-          <DropdownMenuItem key={tool.name} asChild>
-            <Link
-              href={tool.path}
-              className={`flex px-3 py-2 cursor-pointer ${
-                isActive ? "bg-secondary" : "text-muted-foreground"
-              }`}
-            >
-              <Icon className="mr-2 h-4 w-4" />
-              {tool.name}
-            </Link>
-          </DropdownMenuItem>
-        );
-      })}
-    </div>
-  );
+const NavItems = ({ pathname }: { pathname: string | null }) => (
+  <div className="grid gap-1">
+    {toolNames.map((tool) => {
+      const isActive = pathname === tool.path;
+      const Icon = isActive ? tool.activeIcon : tool.icon;
+      return (
+        <DropdownMenuItem key={tool.name} asChild>
+          <Link
+            href={tool.path}
+            className={`flex px-3 py-2 cursor-pointer ${
+              isActive ? "bg-secondary" : "text-muted-foreground"
+            }`}
+          >
+            <Icon className="mr-2 h-4 w-4" />
+            {tool.name}
+          </Link>
+        </DropdownMenuItem>
+      );
+    })}
+  </div>
+);
 
 export default function Nav() {
   const pathname = usePathname();
@@ -69,7 +69,7 @@ export default function Nav() {
             >
               <DropdownMenuLabel>All Tools</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <NavItems />
+              <NavItems pathname={pathname} />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
